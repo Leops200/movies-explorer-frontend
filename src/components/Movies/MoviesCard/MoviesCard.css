@@ -1,0 +1,165 @@
+.card {
+    font-style: normal;
+    background-color: #222222;
+    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
+    border-radius: 6px;
+    width: 360px;
+    height: 319px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card__box {
+    width: calc(100% - 36px);
+    margin: 18px auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.card__title {
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    margin: 0;
+}
+
+.card__duration {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: right;
+    color: #8B8B8B;
+    margin: 0;
+}
+
+.card__link-movie {
+    width: 100%;
+    max-height: 200px;
+    cursor: pointer;
+    display: block;
+    transition: opacity 0.6s ease;
+}
+
+.card__link-movie:hover {
+    opacity: 0.7;
+}
+
+.card__image-movie {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    object-fit: cover;
+}
+
+.card__save-button {
+    margin: 18px auto;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 11px;
+    color: #fff;
+    width: 100px;
+    height: 29px;
+    background-color: #313131;
+    border-radius: 30px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.6s, opacity 0.6s ease;
+}
+
+.card__delete-button {
+    margin: 18px auto;
+    width: 100px;
+    height: 29px;
+    background-image: url(../../../images/saved.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #EE3465;
+    border-radius: 30px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.6s, opacity 0.6s ease;
+}
+
+
+.card__delete-button:hover,
+.card__save-button:hover,
+.card__remove-button:hover {
+    transform: scale(1.2);
+    transform-origin: center;
+    opacity: 0.7;
+}
+
+.card__delete-button:active,
+.card__save-button:active,
+.card__remove-button:active {
+    transform: scale(1);
+}
+
+.card__remove-button {
+    margin: 18px auto;
+    background-image: url(../../../images/deleteMovie.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100px;
+    height: 29px;
+    background-color: #313131;
+    border-radius: 30px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.6s, opacity 0.6s ease;
+}
+
+@media screen and (max-width: 812px) {
+    .card {
+        width: 342px;
+        height: 309px;
+    }
+
+    .card__link-movie {
+        max-height: 190px;
+    }
+}
+
+@media screen and (max-width: 568px) {
+    .card {
+        width: 300px;
+        height: 271px;
+    }
+
+    .card__box {
+        width: calc(100% - 28px);
+        margin: 14px auto;
+    }
+
+    .card__title {
+        font-size: 12px;
+    }
+
+    .card__duration {
+        font-size: 10px;
+    }
+
+    .card__link-movie {
+        width: 100%;
+        max-height: 168px;
+    }
+
+    .card__save-button {
+        margin: 14px auto;
+    }
+
+    .card__delete-button {
+        margin: 14px auto;
+    }
+
+    .card__remove-button {
+        margin: 14px auto;
+    }
+}

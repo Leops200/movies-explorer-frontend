@@ -1,0 +1,127 @@
+.navigation {
+    max-width: 100%;
+    color: #fff;
+    text-decoration: none;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.navigation__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.navigation__registration {
+    font-size: 12px;
+    line-height: 16px;
+    text-decoration: none;
+    color: #fff;
+}
+
+.navigation__registration:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.navigation__login {
+    padding: 8px 20px;
+    font-size: 12px;
+    line-height: 16px;
+    text-decoration: none;
+    color: #000;
+    background-color: #3DDC84;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+.navigation__login:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.navigation__links {
+    font-size: 14px;
+    line-height: 18px;
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+    margin-right: 50px;
+}
+
+.navigation__links:first-of-type {
+    margin: 0;
+}
+
+.navigation__links:last-of-type {
+    margin: 0; 
+}
+
+.navigation__links:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.navigation__account {
+    color: #fff;
+    text-decoration: none;
+    box-sizing: content-box;
+}
+
+.navigation__account:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.navigation__active {
+    font-weight: 500;
+}
+
+@media screen and (max-width: 768px) {
+    .navigation {
+        display: none;
+    }
+
+    .navigation__links {
+        color: #fff;
+        text-decoration: none;
+        margin: 28px auto;
+    }
+
+    .navigation__active {
+        padding-bottom: 4px;
+        border-bottom: solid 1px #fff;
+    }
+
+    .navigation__account {
+        margin-bottom: 90px;
+    }
+
+}
+
+@media screen and (max-width: 568px) {
+    .navigation__container {
+        display: none;
+    }
+
+    .navigation__registration {
+        font-size: 10px;
+    }
+
+    .navigation__login {
+        font-size: 10px;
+        padding: 7px 13px;
+    }
+
+    .navigation__account {
+        margin-bottom: 46px;
+    }
+
+    .navigation__links {
+        font-size: 18px;
+        line-height: 22px;
+        margin: 24px auto;
+    }
+
+}
