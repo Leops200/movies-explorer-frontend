@@ -1,6 +1,5 @@
 import "./AboutMe.css";
 import author from "../../../images/photo_author.jpg";
-
 import TitleSection from "../../TitleSection/TitleSection";
 import Portfolio from "../Portfolio/Portfolio";
 

@@ -1,28 +1,14 @@
-import React from 'react';
-import '../Main/Main.css'
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
-import SearchForm from './SearchForm/SearchForm';
-import MoviesCardList from './MoviesCardList/MoviesCardList';
+import "./Movies.css";
+import SearchForm from "./SearchForm/SearchForm";
+import MoviesCardList from "./MoviesCardList/MoviesCardList";
 
-
-
-
-function Movies() {
-
-
-
-    return (
-        <div className='page'>
-            <Header />
-            <main>
-                <SearchForm />
-                <MoviesCardList />
-            </main>
-            <Footer />
-        </div>
-    );
-
+function Movies({ cards, onFilterChange, isFilterOn, isLiked, onCardLike }) {
+  return (
+    <main className="movies">
+      <SearchForm onFilterChange={onFilterChange} isFilterOn={isFilterOn} />
+      <MoviesCardList cards={cards} isLiked={isLiked} onCardLike={onCardLike} />
+    </main>
+  );
 }
 
 export default Movies;

@@ -7,9 +7,8 @@ function AccountBtn({ isSideMenu, onClose }) {
     <Link
       to="/profile"
       onClick={onClose}
-      className={`account ${
-        isSideMenu ? "account_place_side-menu" : "account_hidden"
-      } hover-button`}
+      className={`account ${isSideMenu ? "account_place_side-menu" : "account_hidden"
+        } hover-button`}
     >
       Аккаунт
     </Link>

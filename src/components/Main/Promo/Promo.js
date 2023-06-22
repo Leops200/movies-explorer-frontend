@@ -1,23 +1,29 @@
-import React from 'react';
-import './Promo.css'
-import '../Main.css'
-import bigLogo from '../../../images/hero-logo.svg';
+import "./Promo.css";
 
-function Promo(onAnchClick, aboutRef) {
+// IMPORT IMAGES
+import hero from "../../../images/hero-logo.svg";
 
+// PROMO COMPONENT
+function Promo({ onAnchorClick, aboutRef }) {
   return (
-    <section className='promo'>
-      <div className='promo__container'>
-        <h1 className='promo__title'>Учебный проект студента факультета Веб&#8209;разработки.</h1>
-        <p className='promo__text'>
+    <section className="promo">
+      <div className="promo__text-wrapper">
+        <h1 className="promo__title">
+          Учебный проект студента факультета Веб&#8209;разработки.
+        </h1>
+        <p className="promo__text">
           Листайте ниже, чтобы узнать больше про этот проект и&nbsp;его
           создателя.
         </p>
-        <button className='promo__btn-anch btn-hover'
-          type='button'
-          onClick={() => onAnchClick(aboutRef)}>Узнать больше</button>
+        <button
+          className="promo__btn-anchor hover-button"
+          type="button"
+          onClick={() => onAnchorClick(aboutRef)}
+        >
+          Узнать больше
+        </button>
       </div>
-      <img className='promo__image' src={bigLogo} alt='лого' />
+      <img className="promo__img" src={hero} alt="Изображение земного шара" />
     </section>
   );
 }

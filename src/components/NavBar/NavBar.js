@@ -1,30 +1,67 @@
-import React from "react";
-import { Routes, Link, Route } from 'react-router-dom';
-import './NavBar.css'
-import profile from '../../images/profile.svg';
+import { Link, useLocation } from "react-router-dom";
+import "./NavBar.css";
 
-function NavBar({ email, onLogOut }) {
-    const pathname = window.location.pathname;
+function NavBar({ isSideMenu, onClose }) {
 
-    return (
-        <section className="navigation">
-            <Routes>
-                <Route path="/sign-in" element={
-                    <Link to="/sign-up" className="navigation__registration">Регистрация</Link>} />
-                <Route path="/sign-up" element={
-                    <Link to="/sign-in" className="navigation__login">Войти</Link>} />
-                <Route path="/" element={
-                    <div className="navigation__container">
-                        <Link to="/movies" className={`navigation__links ${pathname === "/movies" ? 'navigation__active':' '}`}>Фильмы</Link>
-                        <Link to="/saved-movies" className={`navigation__links ${pathname === "/saved-movies" ? 'navigation__active':' '}`}>Сохраненные фильмы</Link> 
-                        <Link to="/profile" className={`navigation__account ${pathname === "/profile" ? 'navigation__active':' '}`}><img src={profile} alt='аккаунт'/></Link> 
-                    </div>
-                } />
-            </Routes>
-        </section>
-    )
+  const location = useLocation();
 
-
+  return (
+    <nav className={`navigation ${isSideMenu ? "" : "navigation_hidden"}`}>
+      <ul
+        className={`navigation__menu-wrapper ${isSideMenu ? "navigation__menu-wrapper_direction_column" : ""
+          }`}
+      >
+        <li
+          className={`navigation__menu-item ${isSideMenu ? "" : "navigation__menu-item_hidden"
+            }`}
+        >
+          <Link
+            to="/"
+            onClick={onClose}
+            className={`navigation__link ${isSideMenu ? "navigation__link_place_side-menu" : ""
+              } ${location.pathname === "/" && isSideMenu
+                ? "navigation__link_place_side-menu-active"
+                : ""
+              } hover-link`}
+          >
+            Главная
+          </Link>
+        </li>
+        <li className="navigation__menu-item">
+          <Link
+            to="/movies"
+            onClick={onClose}
+            className={`navigation__link ${isSideMenu ? "navigation__link_place_side-menu" : ""
+              } ${location.pathname === "/movies" && !isSideMenu
+                ? "navigation__link_place_header-active"
+                : ""
+              } ${location.pathname === "/movies" && isSideMenu
+                ? "navigation__link_place_side-menu-active"
+                : ""
+              } hover-link`}
+          >
+            Фильмы
+          </Link>
+        </li>
+        <li className="navigation__menu-item">
+          <Link
+            to="/saved-movies"
+            onClick={onClose}
+            className={`navigation__link ${isSideMenu ? "navigation__link_place_side-menu" : ""
+              } ${location.pathname === "/saved-movies" && !isSideMenu
+                ? "navigation__link_place_header-active"
+                : ""
+              } ${location.pathname === "/saved-movies" && isSideMenu
+                ? "navigation__link_place_side-menu-active"
+                : ""
+              } hover-link`}
+          >
+            Сохранённые фильмы
+          </Link>
+        </li>
+      </ul>
+    </nav>
+  );
 }
 
 export default NavBar;

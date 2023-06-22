@@ -1,40 +1,51 @@
-import React, { useState } from 'react';
-import Switch from 'react-switch';
-import './SearchForm.css';
+import "./SearchForm.css";
+import SwitchSearch from "./SwitchSearch/SwitchSearch";
 
-function SearchForm() {
-    const [isChecked, setIsChecked] = useState(false);
-    const handleSwitchChange = (checked) => {
-        setIsChecked(checked);
+function SearchForm({ onFilterChange, isFilterOn }) {
+
+    function handleSubmit(e) {
+        e.preventDefault();
     }
 
     return (
-        <section className="search">
-            <form className="search__form">
-                <div className="search__container">
-                    <input className="search__input" name="search" type="text" placeholder="Фильм" required />
-                    <button className="search__button"></button>
-                </div>
-                <label className="search__toggle">
-                    <Switch
-                        className="search__checkbox"
-                        checked={isChecked}
-                        onChange={handleSwitchChange}
-                        onColor="#3DDC84"
-                        offColor="#EBEBEB"
-                        checkedIcon={false}
-                        uncheckedIcon={false}
-                        width={34}
-                        height={14}
-                        handleDiameter={10}
+        <section
+            className="search-form"
+            aria-label="Секция с поиском и фильтрацией"
+        >
+            <div className="search-form__border">
+                <form
+                    className="search-form__form"
+                    id="search-and-filter"
+                    action="#"
+                    name="search-and-filter"
+                    noValidate
+                    onSubmit={handleSubmit}
+                >
+                    <input
+                        className="search-form__search"
+                        form="search-and-filter"
+                        name="search"
+                        placeholder="Фильм"
+                        type="search"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        autoCapitalize="off"
                     />
-                    <p className="search__text">Короткометражки</p>
-                </label>
-            </form>
-            <div className='search__line'></div>
+                    <SwitchSearch
+                        onFilterChange={onFilterChange}
+                        isFilterOn={isFilterOn}
+                    />
+                    <button
+                        className="search-form__btn-submit hover-button"
+                        type="submit"
+                        form="search-and-filter"
+                    >
+                        Найти
+                    </button>
+                </form>
+            </div>
         </section>
     );
-
 }
 
 export default SearchForm;

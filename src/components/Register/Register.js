@@ -1,55 +1,91 @@
-import React from 'react';
-import './Register.css'
-import { Link } from 'react-router-dom';
-import mainLogo from '../../images/mainLogo.svg';
+import useValidation from "../utils/UseValidation";
+import "./Register.css";
+import AuthPoint from "../AuthPoint/AuthPoint";
 
+function Registr() {
+  // HOOKS
+  const { values, errors, isFormValid, onChange } = useValidation();
 
-function Register() {
+  function handleSubmit(e) {
+    e.preventDefault();
+  }
 
-    return (
-        <section className='register'>
-            <div className='register__container'>
-               <Link to='/'><img className='header__image' src={mainLogo} alt='лого' /></Link>
-                <h2 className='register__title'>Добро пожаловать!</h2>
-                <form className='register__form'>
-                    <fieldset className='register__fieldset'>
-                        <label className='register__fields'>
-                            <p className='register__inputs'>Имя</p>
-                            <input className='register__input'
-                                placeholder="Введите имя"
-                                minLength={2}
-                                maxLength={30}
-                            />
-                        </label>
-                        <label className='register__fields'>
-                            <p className='register__inputs'>E-mail</p>
-                            <input className='register__input'
-                                type='email'
-                                name='email'
-                                placeholder='Введите E-mail'
-                                required />
-                        </label>
-                        <label className='register__fields'>
-                            <p className='register__inputs'>Пароль</p>
-                            <input className='register__input'
-                                type='password'
-                                name='password'
-                                placeholder='Введите пароль'
-                                required />
-                        </label>
-                    </fieldset>
-                    <div className='register__box'>
-                        <button className="register__button" type="submit">Зарегистрироваться</button>
-                        <div className='register__link'>
-                            <p className="register__text">Уже зарегистрированы?</p>
-                            <Link className="register__login" to="/sign-in">Войти</Link>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-        </section>
-    );
+  return (
+    <main className="registr">
+      <AuthPoint
+        title="Добро пожаловать!"
+        name="registr"
+        onSubmit={handleSubmit}
+        isFormValid={isFormValid}
+        buttonText="Зарегистрироваться"
+      >
+        <label className="form__input-wrapper">
+          Имя
+          <input
+            className={`form__input ${errors.name ? "form__input_style_error" : ""
+              }`}
+            type="text"
+            name="name"
+            form="registr"
+            required
+            minLength="2"
+            maxLength="30"
+            id="name-input"
+            onChange={onChange}
+            value={values.name || ""}
+          />
+          <span
+            className={`form__input-error ${errors.name ? "form__input-error_active" : ""
+              }`}
+          >
+            {errors.name || ""}
+          </span>
+        </label>
+        <label className="form__input-wrapper">
+          E-mail
+          <input
+            className={`form__input ${errors.email ? "form__input_style_error" : ""
+              }`}
+            type="email"
+            name="email"
+            form="registr"
+            required
+            id="email-input"
+            onChange={onChange}
+            value={values.email || ""}
+          />
+          <span
+            className={`form__input-error ${errors.email ? "form__input-error_active" : ""
+              }`}
+          >
+            {errors.email || ""}
+          </span>
+        </label>
+        <label className="form__input-wrapper">
+          Пароль
+          <input
+            className={`form__input ${errors.password ? "form__input_style_error" : ""
+              }`}
+            type="password"
+            name="password"
+            form="registr"
+            required
+            minLength="6"
+            maxLength="30"
+            id="password-input"
+            onChange={onChange}
+            value={values.password || ""}
+          />
+          <span
+            className={`form__input-error ${errors.password ? "form__input-error_active" : ""
+              }`}
+          >
+            {errors.password || ""}
+          </span>
+        </label>
+      </AuthPoint>
+    </main>
+  );
 }
 
-export default Register;
+export default Registr;

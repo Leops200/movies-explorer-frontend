@@ -1,9 +1,10 @@
 .account {
-    padding: 6px 10px 6px 29px;
+    padding: 9px 25px;
     border-radius: 50px;
-    border: 2px solid var(--block-border-grey-opacity);
-    background: url("../../images/profile-icon.svg") 12px center/12px no-repeat;
+    /*border: 2px solid var(--block-border-grey-opacity);*/
+    /*background: url("../../images/profile-icon.svg") 12px center/12px no-repeat;*/
     font-family: var(--main-font);
+    background-color: var(--btn-bg-color-dark-grey);
     font-size: 14px;
     font-weight: 500;
     line-height: 1.14;

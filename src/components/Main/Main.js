@@ -1,28 +1,18 @@
-import React from 'react';
-import './Main.css';
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
-import Techs from './Techs/Techs';
-import Promo from './Promo/Promo';
-import AboutProject from './AboutProject/AboutPriject';
-import AboutMe from './AboutMe/AboutMe';
+import "./Main.css";
+import Promo from "../Main/Promo/Promo";
+import AboutProject from "../Main/AboutProject/AboutProject";
+import Techs from "../Main/Techs/Techs";
+import AboutMe from "../Main/AboutMe/AboutMe";
 
-function Main() {
-
-    return (
-
-        <div className='page'>
-            <Header />
-            <main>
-                <Promo />
-                <AboutProject />
-                <AboutMe />
-                <Techs />
-            </main>
-            <Footer />
-        </div>
-    );
-
+function Main({ onAnchorClick, aboutRef }) {
+  return (
+    <main className="main">
+      <Promo onAnchorClick={onAnchorClick} aboutRef={aboutRef} />
+      <AboutProject aboutRef={aboutRef} />
+      <Techs />
+      <AboutMe />
+    </main>
+  );
 }
 
 export default Main;
