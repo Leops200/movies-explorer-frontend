@@ -71,6 +71,12 @@
       gap: 12px;
     }
   }
+
+  @media screen and (max-width: 780px) {
+    .switch-checkbox {
+      padding-right: 15px;
+    }
+  }
   
   @media screen and (max-width: 620px) {
     .switch-checkbox {
