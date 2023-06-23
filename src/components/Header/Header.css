@@ -1,5 +1,9 @@
 .header { 
     max-width: 100%;
+  }
+
+  .header_which-padding{
+    max-width: 100%;
     padding-top: 74px;
   }
 

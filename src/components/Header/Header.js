@@ -1,12 +1,15 @@
-import { Link, Route, Routes } from "react-router-dom";
+import React from "react";
+import { Link, Route, Routes} from "react-router-dom";
 import "./Header.css";
 import Logo from "../Logo/Logo";
 import NavBar from "../NavBar/NavBar";
 import AccountBtn from "../AccountBtn/AccountBtn";
 
 function Header({ onHamburgerClick }) {
+
   return (
-    <header className="header">
+    <header className={window.location.pathname === '/' ? "header_which-padding" :
+    "header"}>
       <Routes>
         <Route
           path="/"

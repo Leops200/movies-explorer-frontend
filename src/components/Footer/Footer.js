@@ -22,7 +22,7 @@ function Footer() {
           <li className="footer__list-item">
             <a
               className="footer__link hover-link"
-              href="https://github.com/Bjorn86"
+              href="https://github.com/Leops200"
               target="_blank"
               rel="noreferrer"
             >
