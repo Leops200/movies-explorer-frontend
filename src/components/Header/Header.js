@@ -8,8 +8,7 @@ import AccountBtn from "../AccountBtn/AccountBtn";
 function Header({ onHamburgerClick }) {
 
   return (
-    <header className={window.location.pathname === '/' ? "header_which-padding" :
-    "header"}>
+    <header className="header">
       <Routes>
         <Route
           path="/"
