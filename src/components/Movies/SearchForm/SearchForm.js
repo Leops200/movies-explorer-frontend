@@ -7,7 +7,9 @@ function SearchForm({ onFilterChange, isFilterOn }) {
         e.preventDefault();
     }
     return (
-        <section className="search">
+        <section className="search"
+            aria-label="Секция с поиском и фильтрацией"
+        >
             <form className="search__form"
                 id="search-and-filter"
                 action="#"

@@ -2,7 +2,7 @@ import React from "react";
 import { Link, Route, Routes} from "react-router-dom";
 import "./Header.css";
 import Logo from "../Logo/Logo";
-import NavBar from "../NavBar/NavBar";
+import Navigation from "../Navigation/Navigation";
 import AccountBtn from "../AccountBtn/AccountBtn";
 
 function Header({ onHamburgerClick }) {
@@ -44,7 +44,7 @@ function Header({ onHamburgerClick }) {
             <div className=" header__container">
               <Logo />
               <div className="header__wrapper">
-                <NavBar />
+                <Navigation />
                 <AccountBtn />
                 <button
                   className="header__btn-hamburger hover-button"
@@ -62,7 +62,7 @@ function Header({ onHamburgerClick }) {
             <div className=" header__container">
               <Logo />
               <div className="header__wrapper">
-                <NavBar />
+                <Navigation />
                 <AccountBtn />
                 <button
                   className="header__btn-hamburger hover-button"
@@ -80,7 +80,7 @@ function Header({ onHamburgerClick }) {
             <div className=" header__container">
               <Logo />
               <div className="header__wrapper">
-                <NavBar />
+                <Navigation />
                 <AccountBtn />
                 <button
                   className="header__btn-hamburger hover-button"

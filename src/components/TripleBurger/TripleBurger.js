@@ -1,7 +1,7 @@
 import "./TripleBurger.css";
 import Overlay from "../Overlay/Overlay";
 import AccountBtn from "../AccountBtn/AccountBtn";
-import NavBar from "../NavBar/NavBar";
+import Navigation from "../Navigation/Navigation";
 
 function TripleBurger({ isSideMenuOpen, onClose }) {
   return (
@@ -17,7 +17,7 @@ function TripleBurger({ isSideMenuOpen, onClose }) {
           aria-label="Закрыть меню"
           onClick={onClose}
         ></button>
-        <NavBar isSideMenu={true} onClose={onClose} />
+        <Navigation isSideMenu={true} onClose={onClose} />
         <AccountBtn isSideMenu={true} onClose={onClose} />
       </div>
     </Overlay>

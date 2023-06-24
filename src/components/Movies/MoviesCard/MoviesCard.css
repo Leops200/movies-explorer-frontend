@@ -76,6 +76,7 @@
   
   .movies-card__btn-like-img_active path {
     fill: var(--red);
+    stroke: none;
   }
   
   .movies-card__duration {

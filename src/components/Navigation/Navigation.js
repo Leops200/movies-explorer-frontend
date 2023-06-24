@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
-import "./NavBar.css";
+import "./Navigation.css";
 
-function NavBar({ isSideMenu, onClose }) {
+function Navigation({ isSideMenu, onClose }) {
 
   const location = useLocation();
 
@@ -64,4 +64,4 @@ function NavBar({ isSideMenu, onClose }) {
   );
 }
 
-export default NavBar;
+export default Navigation;
