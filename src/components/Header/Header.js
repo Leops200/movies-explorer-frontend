@@ -13,7 +13,7 @@ function Header({ onHamburgerClick }) {
         <Route
           path="/"
           element={
-            <div className=" header__container header__wrapper_bg-color_hero">
+            <div className=" header__container header__wrapper_bg-color-hero">
               <Logo />
               <div className="header__wrapper ">
                 <div />

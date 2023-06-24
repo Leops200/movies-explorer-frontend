@@ -50,6 +50,7 @@
     border: none;
     border-radius: 50%;
     background-color: var(--btn-bg-color-dark-grey);
+    margin-top: 15px;
     cursor: pointer;
     transition: var(--opacity);
   }

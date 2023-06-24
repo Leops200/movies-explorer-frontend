@@ -23,7 +23,6 @@ function SearchForm({ onFilterChange, isFilterOn }) {
                         type="search"
                         placeholder="Фильм"
                         autoComplete="off"
-                        autoCorrect="off"
                         autoCapitalize="off"
                     />
                     <button className="search__button hover-button"

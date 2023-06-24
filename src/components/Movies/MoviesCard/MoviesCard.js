@@ -30,7 +30,6 @@ function MoviesCard({ card, isLiked, onCardLike }) {
             aria-label="Добавить в сохранённые фильмы"
             onClick={onCardLike}
           >
-            <div style={{ width: "13px", height: "12px" }}></div>
             <svg
               className={`movies-card__btn-like-img ${isLiked ? "movies-card__btn-like-img_active" : ""
                 }`}
@@ -47,7 +46,6 @@ function MoviesCard({ card, isLiked, onCardLike }) {
             type="button"
             aria-label="Удалить фильм из сохранённых"
           >
-            <div style={{ width: "13px", height: "12px" }}></div>
             <svg
               className="movies-card__btn-del-img"
               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 9" width="100%" height="100%"
