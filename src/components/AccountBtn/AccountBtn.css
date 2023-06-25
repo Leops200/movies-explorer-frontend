@@ -1,0 +1,22 @@
+.account {
+    padding: 9px 25px;
+    border-radius: 50px;
+    font-family: var(--main-font);
+    background-color: var(--btn-bg-color-grey);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.14;
+    color: var(--white);
+    text-decoration: none;
+    transition: 0s;
+  }
+  
+  .account_place_side-menu {
+    margin-top: auto;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .account_hidden {
+      opacity: 0;
+    }
+  }
