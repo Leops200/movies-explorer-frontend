@@ -1,12 +1,15 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import "./Profile.css";
 import useValidation from "../utils/UseValidation";
 import Form from "../Form/Form";
 import EntrTitle from "../EntrTitle/EntrTitle";
+import { CurrentUserContext } from "../../context/CurrentUserContext";
 
-function Profile({ user }) {
-
+function Profile({ onLoading,
+}) {
+  const currentUser = useContext(CurrentUserContext);
+  const [isCurrentUser, setUserModified] = useState(true);
   const [isEditingBegun, setEditingStatus] = useState(false);
   const { values, errors, isFormValid, onChange, resetValidation } = useValidation();
 
@@ -19,18 +22,26 @@ function Profile({ user }) {
   }
 
   useEffect(() => {
-    resetValidation(true, user);
-  }, [resetValidation, user]);
+    currentUser.name !== values.name ||
+      currentUser.email !== values.email
+      ? setUserModified(false)
+      : setUserModified(true);
+  }, [currentUser, values]);
+
+  useEffect(() => {
+    resetValidation(false, currentUser);
+  }, [resetValidation, currentUser]);
 
   return (
     <main className="profile">
       <section className="profile__wrapper">
-        <EntrTitle title={`Привет, ${user.name}!`} place="edit-profile" />
+        <EntrTitle title={`Привет, ${currentUser.name}!`} place="edit-profile" />
         <Form
           name="edit-profile"
           onSubmit={handleSubmit}
           isFormValid={isFormValid}
-          buttonText="Сохранить"
+          isCurrentUser={isCurrentUser}
+          buttonText={onLoading ? "Сохранение..." : "Сохранить"}
           isEditingBegun={isEditingBegun}
         >
           <label className="form__input-wrapper form__input-wrapper_type_edit-profile">

@@ -1,22 +1,27 @@
+import { Navigate } from "react-router-dom";
+//import { useEffect } from "react";
 import useValidation from "../utils/UseValidation";
 import "./Login.css";
 import AuthPoint from "../AuthPoint/AuthPoint";
 
-function Login() {
+function Login({onLogin, onLoading, logIn}) {
   const { values, errors, isFormValid, onChange } = useValidation();
 
   function handleSubmit(e) {
     e.preventDefault();
+    onLogin(values);
+    console.log(`submit !, values= ${values}`);
   }
 
-  return (
+  return logIn ? (
+    <Navigate to="/" replace />) : (
     <main className="login">
       <AuthPoint
         title="Рады видеть!"
         name="login"
         onSubmit={handleSubmit}
         isFormValid={isFormValid}
-        buttonText="Войти"
+        buttonText={onLoading ? "Вход..." : "Войти"}
       >
         <label className="form__input-wrapper">
           E-mail
@@ -27,6 +32,7 @@ function Login() {
             name="email"
             form="login"
             required
+            autoComplete="current-password"
             id="email-input"
             onChange={onChange}
             value={values.email || ""}
@@ -51,6 +57,7 @@ function Login() {
             maxLength="30"
             id="password-input"
             onChange={onChange}
+            autoComplete="current-password"
             value={values.password || ""}
           />
           <span
