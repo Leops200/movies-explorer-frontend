@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
+//import useNotification from "../../hooks/useNotification";
 import "./App.css";
 import AppPoint from "../AppPoint/AppPoint";
 import Main from "../Main/Main";
@@ -28,10 +29,12 @@ function App() {
   const [cards, setCards] = useState([]);
   const [savedCards, setSavedCards] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isRedact, setRedact] = useState(false);
   const [errServText, setErrServText] = useState(false);
   const [isLiked, setLike] = useState(false); // пока нет бэкенда 
   const aboutOnClickRef = useRef(null);
   const navigate = useNavigate();
+  //const dispatch = useNotification();
 
   async function userRegisterOn({ password, email, name }) {
     setIsLoading(true);
@@ -51,7 +54,6 @@ function App() {
 
   async function userAuthOn({ email, password }) {
     setIsLoading(true);
-    console.log("AuthOn!");
     try {
       const userData = await MainApi.login({ email, password });
       if (userData) {
@@ -63,22 +65,26 @@ function App() {
       console.error(err);
     } finally {
       setIsLoading(false);
-      console.log("AuthOn!");
     }
   }
-
-  async function userUpdate({ email, name }) {
+async function userUpdate({ email, name }) {
     setIsLoading(true);
     try {
       const userData = await MainApi.addInfo({ name, email });
       if (userData) {
         setCurrentUser(userData);
+        setRedact(prevState => !prevState);
+        /*dispatch({
+          type: "SUCCESS",
+          message: "Профиль успешно обновлён",
+        });*/
       }
     } catch (err) {
       setErrServText(err);
       console.error(err);
     } finally { setIsLoading(false); }
   }
+  
 
   async function userLogOut() {
     try {
@@ -105,7 +111,6 @@ function App() {
     } catch (err) {
       console.error(err);
     } finally {
-      console.log("check Log ")
     }
   }, []);
 
@@ -159,6 +164,8 @@ function App() {
     setSavedCards(moviesSavedCards);
   }, []);
 
+  
+
   return (
     <div className="app__content">
       <CurrentUserContext.Provider value={currentUser}>
@@ -202,7 +209,8 @@ function App() {
             />
             <Route path="/profile" element={
               <Profile user={userData}
-                onUpdateUser={userUpdate}
+                isRedact={isRedact}
+                onUpdate={userUpdate}
                 errServText={errServText}
                 onLogout={userLogOut}
                 onLoading={isLoading}

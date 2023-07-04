@@ -6,21 +6,25 @@ import Form from "../Form/Form";
 import EntrTitle from "../EntrTitle/EntrTitle";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
 
-function Profile({ onLoading,
+function Profile({ onLoading, onLogout, onUpdate, isRedact, setRedact,
 }) {
   const currentUser = useContext(CurrentUserContext);
   const [isCurrentUser, setUserModified] = useState(true);
   const [isEditingBegun, setEditingStatus] = useState(false);
   const { values, errors, isFormValid, onChange, resetValidation } = useValidation();
 
+  // Функция для обработки клика по кнопке "Редактировать"
   function handleEditClick() {
     setEditingStatus(!isEditingBegun);
   }
 
+  // Функция для обработки события отправки формы
   function handleSubmit(e) {
     e.preventDefault();
+    onUpdate(values);
   }
 
+  // Следим за изменением значений currentUser и values, если они отличаются, то форма изменена
   useEffect(() => {
     currentUser.name !== values.name ||
       currentUser.email !== values.email
@@ -28,12 +32,45 @@ function Profile({ onLoading,
       : setUserModified(true);
   }, [currentUser, values]);
 
+  // Сбрасываем валидацию формы при изменении currentUser
   useEffect(() => {
     resetValidation(false, currentUser);
   }, [resetValidation, currentUser]);
 
+  // Следим за событием клика в пустую область или нажатием клавиши "ESC"
+  useEffect(() => {
+    function handleOutsideClick(event) {
+      if (
+        event.target.classList.contains("form__btn-submit") ||
+        event.target.classList.contains("form__input")
+      ) {
+        return;
+      }
+      setEditingStatus(false);
+    }
+  
+    function handleKeyDown(event) {
+      if (event.code === "Escape") {
+        setEditingStatus(false);
+      }
+    }
+
+    if (isRedact) {
+      setEditingStatus(false);
+    }
+  
+    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("keydown", handleKeyDown);
+  
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isRedact]);
+
   return (
     <main className="profile">
+       { isRedact && <Form onClickOutside={() => setRedact(false)}/>}
       <section className="profile__wrapper">
         <EntrTitle title={`Привет, ${currentUser.name}!`} place="edit-profile" />
         <Form
@@ -117,13 +154,14 @@ function Profile({ onLoading,
           <button
             className="profile__btn-action profile__btn-action_type_edit hover-link"
             type="button"
+            onClick={handleEditClick}
           >
             Редактировать
           </button>
           <button
             className="profile__btn-action profile__btn-action_type_exit hover-link"
             type="button"
-            onClick={handleEditClick}
+            onClick={onLogout}
           >
             Выйти из аккаунта
           </button>

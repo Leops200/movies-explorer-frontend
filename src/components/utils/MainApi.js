@@ -31,11 +31,11 @@ export function login({ password, email }) {
 }
 
 export function logout() {
-  return makeRequest("/signout", "POST", true);
+  return makeRequest("/signout", "POST");
 }
 
 export function checkToken() {
-  return makeRequest("/users/me", "GET", true);
+  return makeRequest("/users/me", "GET");
 }
 
 export function getUserInfo() {

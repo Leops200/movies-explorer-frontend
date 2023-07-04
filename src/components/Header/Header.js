@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Header.css";
 import Logo from "../Logo/Logo";
@@ -8,16 +7,15 @@ import AccountBtn from "../AccountBtn/AccountBtn";
 function Header({ onHamburgerClick, logIn }) {
 
   const nowLocation = useLocation();
-  console.log(`logIn= ${logIn} `);
+  console.log(`header location "${nowLocation.pathname}"`)
 
   return (
     <header className="header">
       {logIn ? (
-        <div
-          className={`header__wrapper ${nowLocation.pathname === "/" ? "header__wrapper_bg-color_hero" : ""
-            }`}
-        >
-          <div className=" header__container">
+        
+          <div
+            className={`header__container header__wrapper ${nowLocation.pathname === "/" ? "header__wrapper_bg-color_hero" : ""}`}
+          >
             <Logo />
             <Navigation />
             <AccountBtn />
@@ -27,9 +25,9 @@ function Header({ onHamburgerClick, logIn }) {
               aria-label="Меню навигации"
               onClick={onHamburgerClick}
             ></button>
-          </div>
-        </div> ) : (
-          <div className=" header__container header__wrapper_bg-color-hero">
+          
+        </div>) : (
+        <div className=" header__container header__wrapper_bg-color-hero">
           <Logo />
           <div className="header__wrapper ">
             <div />
@@ -52,11 +50,10 @@ function Header({ onHamburgerClick, logIn }) {
             </nav>
           </div>
         </div>
-        )}
-        </header>
+      )}
+    </header>
   );
-        }
+}
 
-        export default Header;
+export default Header;
 
-      

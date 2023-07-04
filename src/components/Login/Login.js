@@ -10,7 +10,6 @@ function Login({onLogin, onLoading, logIn}) {
   function handleSubmit(e) {
     e.preventDefault();
     onLogin(values);
-    console.log(`submit !, values= ${values}`);
   }
 
   return logIn ? (

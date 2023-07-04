@@ -1,3 +1,4 @@
+import React, { useEffect, useRef } from "react";
 import "./Form.css";
 import ServErrs from "../ServErrs/ServErrs";
 
@@ -8,9 +9,47 @@ function Form({
   buttonText,
   isEditingBegun,
   ...props
-}) {
+}) { 
+
+  const formRef = useRef(null);
+
+  // Обработка события нажатия клавиши "ESC"
+  useEffect(() => {
+    const handleEscKeyPress = (event) => {
+      if (event.key === "Escape") {
+        formRef.current.reset();
+        // Вернуться к кнопкам профиля
+        // ...
+      }
+    };
+
+    document.addEventListener("keydown", handleEscKeyPress);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscKeyPress);
+    };
+  }, []);
+
+   // Обработка события клика вне формы
+   useEffect(() => {
+    const handleClickOutsideForm = (event) => {
+      if (formRef.current && !formRef.current.contains(event.target)) {
+        formRef.current.reset();
+        // Вернуться к кнопкам профиля
+        // ...
+      }
+    };
+
+    document.addEventListener("click", handleClickOutsideForm);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutsideForm);
+    };
+  }, []);
+
   return (
     <form
+    ref={formRef}
       action="#"
       name={`${name}`}
       id={`${name}`}
