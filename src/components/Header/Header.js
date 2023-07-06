@@ -12,20 +12,18 @@ function Header({ onHamburgerClick, logIn }) {
   return (
     <header className="header">
       {logIn ? (
-        
-          <div
-            className={`header__container header__wrapper ${nowLocation.pathname === "/" ? "header__wrapper_bg-color_hero" : ""}`}
-          >
-            <Logo />
-            <Navigation />
-            <AccountBtn />
-            <button
-              className="header__btn-hamburger hover-button"
-              type="button"
-              aria-label="Меню навигации"
-              onClick={onHamburgerClick}
-            ></button>
-          
+        <div
+          className={`header__container header__wrapper ${nowLocation.pathname === "/" ? "header__wrapper_bg-color-hero" : ""}`}
+        >
+          <Logo />
+          <Navigation />
+          <AccountBtn />
+          <button
+            className="header__btn-hamburger hover-button"
+            type="button"
+            aria-label="Меню навигации"
+            onClick={onHamburgerClick}
+          ></button>
         </div>) : (
         <div className=" header__container header__wrapper_bg-color-hero">
           <Logo />
