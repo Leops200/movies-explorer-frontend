@@ -1,10 +1,19 @@
 import { useLocation } from "react-router-dom";
 import "./MoviesCard.css";
+import { MOV_API_URL } from "../../utils/constants";
 
-function MoviesCard({ card, isLiked, onCardLike }) {
-  const location = useLocation();
+function MoviesCard({ card, onCardSave, isSaved, onCardDel }) {
+  const nowLocation = useLocation();
 
-  function handleConvertDuration(duration) {
+  function handleSaveClick() {
+    onCardSave(card);
+  }
+
+  function handleDelClick() {
+    onCardDel(card);
+  }
+
+  function converterDuration(duration) {
     const minutes = duration % 60;
     const hours = (duration - minutes) / 60;
     if (hours < 1) {
@@ -16,27 +25,37 @@ function MoviesCard({ card, isLiked, onCardLike }) {
 
   return (
     <li className="movies-card">
-      <img
-        className="movies-card__img"
-        src={`https://api.nomoreparties.co${card.image.url}`} // пока нет бэка
-        alt={`Постер фильма ${card.nameRU}`}
-      />
+      <a
+        className="movies-card__link hover-link"
+        target="_blank"
+        href={card.trailerLink}
+        rel="noreferrer"
+      >
+        <img
+          className="movies-card__img"
+          src={
+            nowLocation.pathname === "/movies"
+              ? `${MOV_API_URL}${card.image.url}`
+              : `${card.image}`
+          }
+          alt={`Постер фильма ${card.nameRU}`}
+        />
+      </a>
       <div className="movies-card__caption">
         <p className="movies-card__name">{card.nameRU}</p>
-        {location.pathname === "/movies" ? (
+        {nowLocation.pathname === "/movies" ? (
           <button
             className="movies-card__btn-action hover-button"
             type="button"
-            aria-label="Добавить в сохранённые фильмы"
-            onClick={onCardLike}
+            aria-label="Добавить в сохранённые"
+            onClick={isSaved ? handleDelClick : handleSaveClick }
           >
             <svg
-              className={`movies-card__btn-like-img ${isLiked ? "movies-card__btn-like-img_active" : ""
+              className={`movies-card__btn-like-img ${isSaved ? "movies-card__btn-like-img_active" : ""
                 }`}
               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 9" width="100%" height="100%"
             >
-              <path
-                path stroke="#424242" strokeWidth="1" d="M7.273 0C6.273 0 5.545.523 5 1.09 4.455.567 3.727 0 2.727 0 1.137 0 0 1.264 0 2.833c0 .785.318 1.482.91 1.962L5 8.5l4.09-3.705c.546-.523.91-1.177.91-1.962C10 1.264 8.864 0 7.273 0Z"
+              <path stroke="#424242" strokeWidth="1" d="M7.273 0C6.273 0 5.545.523 5 1.09 4.455.567 3.727 0 2.727 0 1.137 0 0 1.264 0 2.833c0 .785.318 1.482.91 1.962L5 8.5l4.09-3.705c.546-.523.91-1.177.91-1.962C10 1.264 8.864 0 7.273 0Z"
               />
             </svg>
           </button>
@@ -44,7 +63,8 @@ function MoviesCard({ card, isLiked, onCardLike }) {
           <button
             className="movies-card__btn-action movies-card__btn-action_place_saved-movies"
             type="button"
-            aria-label="Удалить фильм из сохранённых"
+            aria-label="Удалить из сохранённых"
+            onClick={handleDelClick}
           >
             <svg
               className="movies-card__btn-del-img"
@@ -61,7 +81,7 @@ function MoviesCard({ card, isLiked, onCardLike }) {
         )}
       </div>
       <p className="movies-card__duration">
-        {handleConvertDuration(card.duration)}
+        {converterDuration(card.duration)}
       </p>
     </li>
   );

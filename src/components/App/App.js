@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-//import useNotification from "../../hooks/useNotification";
+
 import "./App.css";
 import AppPoint from "../AppPoint/AppPoint";
 import Main from "../Main/Main";
@@ -12,29 +12,24 @@ import Login from "../Login/Login";
 import Registr from "../Register/Register";
 import NotFound from "../NotFound/NotFound";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
-
-// то, что должно прийти с бэка
-import moviesCards from "../utils/tempData/data.json";
-import moviesSavedCards from "../utils/tempData/savedData.json";
-import userData from "../utils/tempData/userData.json";
+import { MOV_API_URL } from "../utils/constants";
 
 import * as MainApi from "../utils/MainApi";
+import * as MovieApi from "../utils/MovieApi";
 
 function App() {
   // Хуки
   const [currentUser, setCurrentUser] = useState({});
   const [logIn, setLogIn] = useState(false);
   const [isSideMenuOpen, setSideMenuStatus] = useState(false);
-  const [isFilterOn, setFilter] = useState(false);
-  const [cards, setCards] = useState([]);
-  const [savedCards, setSavedCards] = useState([]);
+  const [savedMovies, setSavedCards] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isRedact, setRedact] = useState(false);
   const [errServText, setErrServText] = useState(false);
-  const [isLiked, setLike] = useState(false); // пока нет бэкенда 
+  const [isSerchErr, setIsSerchErr] = useState(false);
+  //const [isPreloaderOn, setPreloader] = useState(); 
   const aboutOnClickRef = useRef(null);
   const navigate = useNavigate();
-  //const dispatch = useNotification();
+
 
   async function userRegisterOn({ password, email, name }) {
     setIsLoading(true);
@@ -67,24 +62,19 @@ function App() {
       setIsLoading(false);
     }
   }
-async function userUpdate({ email, name }) {
+  async function userUpdate({ email, name }) {
     setIsLoading(true);
     try {
       const userData = await MainApi.addInfo({ name, email });
       if (userData) {
         setCurrentUser(userData);
-        setRedact(prevState => !prevState);
-        /*dispatch({
-          type: "SUCCESS",
-          message: "Профиль успешно обновлён",
-        });*/
       }
     } catch (err) {
       setErrServText(err);
       console.error(err);
     } finally { setIsLoading(false); }
   }
-  
+
 
   async function userLogOut() {
     try {
@@ -101,7 +91,7 @@ async function userUpdate({ email, name }) {
     }
   }
 
-  const handleUserLoginCheck = useCallback(async () => {
+  const userLoginCheck = useCallback(async () => {
     try {
       const userData = await MainApi.getUserInfo();
       if (userData) {
@@ -114,27 +104,32 @@ async function userUpdate({ email, name }) {
     }
   }, []);
 
-  const getUserMoviesCards = useCallback(async () => {
+  async function getAllMovies() {
+    setIsLoading(true);
+    setIsSerchErr(false);
     try {
-      const moviesData = await MainApi.getInitCards();
+      const moviesData = await MovieApi.getMovies();
       if (moviesData) {
-        setSavedCards(moviesData);
+        return moviesData;
       }
     } catch (err) {
+      setIsSerchErr(true);
       console.error(err);
+    } finally {
+      setIsLoading(false);
     }
-  }, []);
+  }
 
   // Проверяем, авторизован ли пользователь
   useEffect(() => {
-    handleUserLoginCheck();
-  }, [logIn, handleUserLoginCheck]);
+    userLoginCheck();
+  }, [logIn, userLoginCheck]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (logIn) {
       getUserMoviesCards();
     }
-  }, [logIn, getUserMoviesCards]);
+  }, [logIn, getUserMoviesCards]);*/
 
   function handleOpenSideMenu() {
     setSideMenuStatus(!isSideMenuOpen);
@@ -145,11 +140,46 @@ async function userUpdate({ email, name }) {
   }
 
   function handleFilterChange(evt) {
-    setFilter(evt);
+
   }
 
-  function handleCardLike() {
-    setLike(!isLiked);
+  async function handleMovSave(movie) {
+    try {
+      const movieData = await MainApi.creatCardMovies({
+        country: movie.country,
+        director: movie.director,
+        duration: movie.duration,
+        year: movie.year,
+        description: movie.description,
+        image: `${MOV_API_URL}${movie.image.url}`,
+        trailerLink: movie.trailerLink,
+        thumbnail: `${MOV_API_URL}${movie.image.formats.thumbnail.url}`,
+        movieId: movie.id,
+        nameRU: movie.nameRU,
+        nameEN: movie.nameEN,
+      });
+      if (movieData) {
+        setSavedCards([movieData, ...savedMovies]);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function movieDel(movie) {
+    const savedMovie = savedMovies.find(
+      (card) => card.movieId === movie.id || card.movieId === movie.movieId
+    );
+    try {
+      const data = await MainApi.cardDel(savedMovie._id);
+      if (data) {
+        setSavedCards((state) =>
+          state.filter((card) => card._id !== savedMovie._id)
+        );
+      }
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   function handleScrollEffect(targetRef) {
@@ -159,12 +189,12 @@ async function userUpdate({ email, name }) {
     });
   }
 
-  useEffect(() => {
-    setCards(moviesCards);
-    setSavedCards(moviesSavedCards);
-  }, []);
+  /* useEffect(() => {
+     setCards(moviesCards);
+     setSavedCards(moviesSavedCards);
+   }, []);*/
 
-  
+
 
   return (
     <div className="app__content">
@@ -187,12 +217,13 @@ async function userUpdate({ email, name }) {
               path="/movies"
               element={
                 <Movies
-                  cards={cards}
-                  onFilterChange={handleFilterChange}
-                  isFilterOn={isFilterOn}
-                  isLiked={isLiked}
-                  onCardLike={handleCardLike}
+                  onSearch={getAllMovies}
+                  savedMovies={savedMovies}
+                  onCardSave={handleMovSave}
                   logIn={logIn}
+                  isSerchErr={isSerchErr}
+                  isLoading={isLoading}
+                  onCardDel={movieDel}
                 />
               }
             />
@@ -200,16 +231,15 @@ async function userUpdate({ email, name }) {
               path="/saved-movies"
               element={
                 <SavedMovies
-                  cards={savedCards}
+                  savedMovies={savedMovies}
                   onFilterChange={handleFilterChange}
-                  isFilterOn={isFilterOn}
                   logIn={logIn}
+                  onCardDel={movieDel}
                 />
               }
             />
             <Route path="/profile" element={
-              <Profile user={userData}
-                isRedact={isRedact}
+              <Profile
                 onUpdate={userUpdate}
                 errServText={errServText}
                 onLogout={userLogOut}

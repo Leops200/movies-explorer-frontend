@@ -1,23 +1,5 @@
 import { SHORT_MOVIE } from "./constants";
 
-/*
-export function makeRequest(url, endpoint, method, credentials, body) {
-  const headers = { "Content-Type": "application/json" };
-  const config = { method, headers };
-  if (credentials) {
-    config.credentials = "include";
-  }
-  if (body !== undefined) {
-    config.body = JSON.stringify(body);
-  }
-  return fetch(`${url}${endpoint}`, config).then((res) => {
-    const result = res.json();
-    return res.ok
-      ? result
-      : result.then((err) => Promise.reject(`${err.message}`));
-  });
-}*/
-
 // конвертер длительности фильма
 export function convertDuration(duration) {
   const minutes = duration % 60;
@@ -29,14 +11,14 @@ export function convertDuration(duration) {
   }
 }
 
-// фильтр поисковика фильмов
-export function handleMovieFiltering(movies, isFilterOn, isSavedMovies) {
+// переключатель поисковика фильмов
+export function movieSwitch(movies, isSwitchOn, isSavedMovies) {
   if (!isSavedMovies) {
-    localStorage.setItem("isMoviesFilterOn", isFilterOn);
+    localStorage.setItem("isMoviesSwitchOn", isSwitchOn);
   } else {
-    localStorage.setItem("isSavedMoviesFilterOn", isFilterOn);
+    localStorage.setItem("isSavedMoviesSwitchOn", isSwitchOn);
   }
-  if (isFilterOn) {
+  if (isSwitchOn) {
     const result = movies.filter((movie) => movie.duration <= SHORT_MOVIE);
     return result;
   } else {
@@ -45,8 +27,8 @@ export function handleMovieFiltering(movies, isFilterOn, isSavedMovies) {
 }
 
 // поисковик фильмов
-export function handleMovieSearch(movies, searchQuery, isSavedMovies) {
-  const normalizeSearchQuery = searchQuery.toLowerCase().trim();
+export function movieSearch(movies, searchPhrase, isSavedMovies) {
+  const normalizeSearchQuery = searchPhrase.toLowerCase().trim();
   const result = movies.filter((movie) => {
     const normalizeNameRu = movie.nameRU.toLowerCase().trim();
     const normalizeNameEn = movie.nameEN.toLowerCase().trim();
@@ -59,14 +41,14 @@ export function handleMovieSearch(movies, searchQuery, isSavedMovies) {
     localStorage.setItem("foundMovies", JSON.stringify(result));
     localStorage.setItem("moviesSearchQuery", normalizeSearchQuery);
   } else {
-    localStorage.setItem("savedMoviesSearchQuery", normalizeSearchQuery);
+    localStorage.setItem("moviesSearchPhrase", normalizeSearchQuery);
   }
   return result;
 }
 
 // обработчик статусов сохранения карточек с фильмами
-export function handleSavedStatus(savedCards, movieCard) {
-  return savedCards.find((card) => {
+export function savedMovStatus(savedMovies, movieCard) {
+  return savedMovies.find((card) => {
     return card.movieId === (movieCard.id || movieCard.movieId);
   });
 }

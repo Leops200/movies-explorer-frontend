@@ -23,11 +23,11 @@ function makeRequest(url, method, body) {
 }
 
 export function registration({ password, email, name }) {
-  return makeRequest("/signup", "POST", { password, email, name }, true);
+  return makeRequest("/signup", "POST", { password, email, name });
 }
 
 export function login({ password, email }) {
-  return makeRequest("/signin", "POST", { password, email }, true);
+  return makeRequest("/signin", "POST", { password, email });
 }
 
 export function logout() {
@@ -51,20 +51,17 @@ export function addInfo({ name, email }) {
 export function getInitCards() {
   return makeRequest(`/movies`, "GET");
 }
-/*
-export function addNewCard({ name, link }) {
-  return makeRequest("/cards", "POST", { name, link });
+
+export function creatCardMovies({country, director, duration,
+  year, description, image, trailerLink, thumbnail, movieId,
+  nameRU, nameEN
+}) {
+  return makeRequest("/movies", "POST", {
+    country, director, duration, year, description, image,
+    trailerLink, thumbnail, movieId, nameRU, nameEN
+  });
 }
 
-export function changeLikeStatus(id, isLiked) {
-  if (isLiked) {
-    return makeRequest(`/cards/${id}/likes`, "PUT");
-  } else {
-    return makeRequest(`/cards/${id}/likes`, "DELETE");
-  }
-};
-
-
-export function deleteCard(id) {
-  return makeRequest(`/cards/${id}`, "DELETE");
-}*/
+export function cardDel(id) {
+  return makeRequest(`/movies/${id}`, "DELETE");
+}
