@@ -7,7 +7,6 @@ import AccountBtn from "../AccountBtn/AccountBtn";
 function Header({ onHamburgerClick, logIn }) {
 
   const nowLocation = useLocation();
-  console.log(`header location "${nowLocation.pathname}"`)
 
   return (
     <header className="header">

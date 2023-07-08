@@ -1,8 +1,8 @@
-const BASE_AUTH_URL = "http://localhost:3001";
+const BASE_AUTH_URL = "http://api.diploma.dev.nomoredomains.rocks";
 // http://localhost:3001
 // https://auth.nomoreparties.co
 // http://api.diploma.dev.nomoredomains.rocks
-// https://api.mymesto15front.nomoredomains.monster
+
 
 function makeRequest(url, method, body) {
   const headers = { "Content-Type": "application/json" };
