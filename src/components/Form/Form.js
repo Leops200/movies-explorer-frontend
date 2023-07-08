@@ -2,24 +2,14 @@ import React, { useEffect, useRef } from "react";
 import "./Form.css";
 import ServErrs from "../ServErrs/ServErrs";
 
-function Form({
-  name,
-  onSubmit,
-  isFormValid,
-  buttonText,
-  isEditingBegun,
-  ...props
-}) { 
-
+function Form({ name, onSubmit, isFormValid, buttonText,
+  isEditingBegun, ...props }) {
   const formRef = useRef(null);
 
-  // Обработка события нажатия клавиши "ESC"
   useEffect(() => {
     const handleEscKeyPress = (event) => {
       if (event.key === "Escape") {
         formRef.current.reset();
-        // Вернуться к кнопкам профиля
-        // ...
       }
     };
 
@@ -30,13 +20,10 @@ function Form({
     };
   }, []);
 
-   // Обработка события клика вне формы
-   useEffect(() => {
+  useEffect(() => {
     const handleClickOutsideForm = (event) => {
       if (formRef.current && !formRef.current.contains(event.target)) {
         formRef.current.reset();
-        // Вернуться к кнопкам профиля
-        // ...
       }
     };
 
@@ -49,7 +36,7 @@ function Form({
 
   return (
     <form
-    ref={formRef}
+      ref={formRef}
       action="#"
       name={`${name}`}
       id={`${name}`}
@@ -63,8 +50,8 @@ function Form({
         type="submit"
         form={`${name}`}
         className={`form__btn-submit ${name === "edit-profile" && !isEditingBegun
-            ? "form__btn-submit_hidden"
-            : ""
+          ? "form__btn-submit_hidden"
+          : ""
           } hover-button`}
         disabled={isFormValid ? false : true}
       >

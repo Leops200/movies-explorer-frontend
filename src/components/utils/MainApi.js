@@ -1,4 +1,4 @@
-const BASE_AUTH_URL = "http://localhost:3001";
+const BASE_AUTH_URL = "https://api.diplom.ld-webdev.nomoredomains.rocks";
 // http://localhost:3001
 // https://auth.nomoreparties.co
 // http://api.diploma.dev.nomoredomains.rocks
@@ -7,11 +7,7 @@ const BASE_AUTH_URL = "http://localhost:3001";
 function makeRequest(url, method, body) {
   const headers = { "Content-Type": "application/json" };
   const config = { method, headers, credentials: "include" };
-  /* исключаем проверку токена 
-  if (token !== undefined) {
-    headers["Authorization"] = `Bearer ${token}`;
-  }
-  */
+
   if (body !== undefined) {
     config.body = JSON.stringify(body);
   }

@@ -10,14 +10,14 @@ import { movieSwitch, movieSearch } from "../utils/utils";
 function Movies({ isLoading, savedMovies, onCardSave, isSerchErr,
   onSearch, onCardDel }) {
 
+  const screenWidth = useResizeWidthScn();
   const [initCards, setInitCards] = useState([]);
-  const [moviesRender, setMovRender] = useState([]);
-  const [foundCards, setFoundCards] = useState([]);
   const [isSwitchOn, setSwitch] = useState(false);
+  const [isSearch, setIsSearch] = useState(false);
+  const [foundCards, setFoundCards] = useState([]);
+  const [moviesRender, setMovRender] = useState([]);
   const [isCardsNotFound, setCardsNotFound] = useState(false);
   const [cardRenderConfig, setCardRenderConfig] = useState({});
-  const [isSearch, setIsSearch] = useState(false);
-  const screenWidth = useResizeWidthScn();
 
   const searchNfilter = useCallback(
     (cards, searchPhrase) => {
@@ -69,7 +69,7 @@ function Movies({ isLoading, savedMovies, onCardSave, isSerchErr,
     [foundCards]
   );
 
-    useEffect(() => {
+  useEffect(() => {
     if (screenWidth >= CARDS_RENDER_SETTINGS.base.width) {
       setCardRenderConfig(CARDS_RENDER_SETTINGS.base.cards);
     } else if (
@@ -108,7 +108,7 @@ function Movies({ isLoading, savedMovies, onCardSave, isSerchErr,
       }
     }
   }, []);
- 
+
   return (
     <main className="movies">
       <SearchForm

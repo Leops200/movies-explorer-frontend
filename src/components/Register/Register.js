@@ -4,13 +4,9 @@ import "./Register.css";
 import { Navigate } from "react-router-dom";
 import AuthPoint from "../AuthPoint/AuthPoint";
 
-function Registr(
-  { onRegister, onLoading, errServText, logIn }
-) {
+function Registr({ onRegister, onLoading, errServText, logIn }) {
 
   const { values, errors, isFormValid, onChange } = useValidation();
-
-  //useEffect(() => {setErrServText("");},[setErrServText]);
 
   function handleSubmit(e) {
     e.preventDefault();

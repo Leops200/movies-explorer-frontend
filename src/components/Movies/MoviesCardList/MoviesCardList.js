@@ -21,7 +21,7 @@ function MoviesCardList({ cards, onCardSave, cardRenderConfig,
     }
   }
 
-  useEffect (() => {
+  useEffect(() => {
     if (nowLocation.pathname === "/movies" && cards.length) {
       const result = cards.filter((card, index) => {
         return index < cardRenderConfig.total;
@@ -49,17 +49,16 @@ function MoviesCardList({ cards, onCardSave, cardRenderConfig,
       {isSerchErr && (
         <p className="movies-card-list__info">
           Во&nbsp;время запроса произошла ошибка. Проблемы с&nbsp;сетью,
-          или сервер не&nbsp;доступен. Повторите запрос позже.
+          или сервер недоступен. Повторите запрос позже.
         </p>
       )}
       {cards.length !== 0 && !isCardsNotFound && (
         <>
           <ul
-            className={`movies-card-list__list ${
-              moviesRender.length > 3
+            className={`movies-card-list__list ${moviesRender.length > 3
                 ? "movies-card-list__list_space-evenly"
                 : ""
-            }`}
+              }`}
           >
             {moviesRender.map((card) => (
               <MoviesCard

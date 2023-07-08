@@ -31,7 +31,6 @@ function Login({onLogin, onLoading, logIn}) {
             name="email"
             form="login"
             required
-            autoComplete="current-password"
             id="email-input"
             onChange={onChange}
             value={values.email || ""}

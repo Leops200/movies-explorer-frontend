@@ -11,6 +11,7 @@ import Profile from "../Profile/Profile";
 import Login from "../Login/Login";
 import Registr from "../Register/Register";
 import NotFound from "../NotFound/NotFound";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
 import { MOV_API_URL } from "../utils/constants";
 
@@ -26,7 +27,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [errServText, setErrServText] = useState(false);
   const [isSerchErr, setIsSerchErr] = useState(false);
-  //const [isPreloaderOn, setPreloader] = useState(); 
   const aboutOnClickRef = useRef(null);
   const navigate = useNavigate();
 
@@ -125,12 +125,6 @@ function App() {
     userLoginCheck();
   }, [logIn, userLoginCheck]);
 
-  /*useEffect(() => {
-    if (logIn) {
-      getUserMoviesCards();
-    }
-  }, [logIn, getUserMoviesCards]);*/
-
   function handleOpenSideMenu() {
     setSideMenuStatus(!isSideMenuOpen);
   }
@@ -189,15 +183,8 @@ function App() {
     });
   }
 
-  /* useEffect(() => {
-     setCards(moviesCards);
-     setSavedCards(moviesSavedCards);
-   }, []);*/
-
-
-
   return (
-    <div className="app__content">
+    <div className="app">
       <CurrentUserContext.Provider value={currentUser}>
         <Routes>
           <Route
@@ -216,7 +203,8 @@ function App() {
             <Route
               path="/movies"
               element={
-                <Movies
+                <ProtectedRoute
+                  element={Movies}
                   onSearch={getAllMovies}
                   savedMovies={savedMovies}
                   onCardSave={handleMovSave}
@@ -230,7 +218,8 @@ function App() {
             <Route
               path="/saved-movies"
               element={
-                <SavedMovies
+                <ProtectedRoute
+                  element={SavedMovies}
                   savedMovies={savedMovies}
                   onFilterChange={handleFilterChange}
                   logIn={logIn}
@@ -239,7 +228,8 @@ function App() {
               }
             />
             <Route path="/profile" element={
-              <Profile
+              <ProtectedRoute
+                element={Profile}
                 onUpdate={userUpdate}
                 errServText={errServText}
                 onLogout={userLogOut}

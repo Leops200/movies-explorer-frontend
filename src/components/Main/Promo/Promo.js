@@ -1,9 +1,6 @@
 import "./Promo.css";
-
-// IMPORT IMAGES
 import hero from "../../../images/hero-logo.svg";
 
-// PROMO COMPONENT
 function Promo({ onAnchorClick, aboutRef }) {
   return (
     <section className="promo">
