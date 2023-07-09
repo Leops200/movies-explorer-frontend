@@ -1,4 +1,4 @@
-const BASE_AUTH_URL = "http://api.diploma.dev.nomoredomains.rocks";
+const BASE_AUTH_URL = "https://api.diploma.dev.nomoredomains.rocks";
 // http://localhost:3001
 // https://auth.nomoreparties.co
 // http://api.diploma.dev.nomoredomains.rocks
