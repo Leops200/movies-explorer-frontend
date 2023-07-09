@@ -13,5 +13,3 @@
 Ссылка на картинку макета фигмы с ошибкой, под который и выполнял верстку: https://disk.yandex.ru/d/
 
 Ссылка на пул-реквест: https://github.com/Leops200/movies-explorer-frontend/pulls
-
-start part4(functional)
