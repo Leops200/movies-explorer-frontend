@@ -1,4 +1,4 @@
-const BASE_AUTH_URL = "https://api.diploma.dev.nomoredomains.rocks";
+const BASE_AUTH_URL = "http://localhost:3000";
 // http://localhost:3001
 // https://auth.nomoreparties.co
 // http://api.diploma.dev.nomoredomains.rocks
@@ -30,16 +30,12 @@ export function logout() {
   return makeRequest("/signout", "POST");
 }
 
-export function checkToken() {
-  return makeRequest("/users/me", "GET");
-}
-
 export function getUserInfo() {
   return makeRequest(`/users/me`, "GET");
 }
 
-export function addInfo({ name, email }) {
-  return makeRequest("/users/me", "PATCH", { name, email });
+export function addInfo({ email, name }) {
+  return makeRequest("/users/me", "PATCH", { email, name });
 }
 
 // ==== cards ==============

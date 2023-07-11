@@ -6,8 +6,8 @@ import Form from "../Form/Form";
 import EntrTitle from "../EntrTitle/EntrTitle";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
 
-function Profile({ onLoading, onLogout, onUpdate, isRedact, setRedact,
-}) {
+function Profile({ onLoading, onLogout, onUpdate, setErrServText, isRedact,
+  setRedact }) {
   const currentUser = useContext(CurrentUserContext);
   const [isCurrentUser, setUserModified] = useState(true);
   const [isEditingBegun, setEditingStatus] = useState(false);
@@ -37,6 +37,11 @@ function Profile({ onLoading, onLogout, onUpdate, isRedact, setRedact,
     resetValidation(false, currentUser);
   }, [resetValidation, currentUser]);
 
+  // Сбрасываем ошибки
+  useEffect(() => {
+    setErrServText("");
+  }, [setErrServText]);
+
   // Следим за событием клика в пустую область или нажатием клавиши "ESC"
   useEffect(() => {
     function handleOutsideClick(event) {
@@ -48,7 +53,7 @@ function Profile({ onLoading, onLogout, onUpdate, isRedact, setRedact,
       }
       setEditingStatus(false);
     }
-  
+
     function handleKeyDown(event) {
       if (event.code === "Escape") {
         setEditingStatus(false);
@@ -58,10 +63,10 @@ function Profile({ onLoading, onLogout, onUpdate, isRedact, setRedact,
     if (isRedact) {
       setEditingStatus(false);
     }
-  
+
     document.addEventListener("mousedown", handleOutsideClick);
     document.addEventListener("keydown", handleKeyDown);
-  
+
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
       document.removeEventListener("keydown", handleKeyDown);
@@ -70,7 +75,7 @@ function Profile({ onLoading, onLogout, onUpdate, isRedact, setRedact,
 
   return (
     <main className="profile">
-       { isRedact && <Form onClickOutside={() => setRedact(false)}/>}
+      {isRedact && <Form onClickOutside={() => setRedact(false)} />}
       <section className="profile__wrapper">
         <EntrTitle title={`Привет, ${currentUser.name}!`} place="edit-profile" />
         <Form

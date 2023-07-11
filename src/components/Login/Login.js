@@ -1,16 +1,20 @@
+import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
-//import { useEffect } from "react";
 import useValidation from "../utils/UseValidation";
 import "./Login.css";
 import AuthPoint from "../AuthPoint/AuthPoint";
 
-function Login({onLogin, onLoading, logIn}) {
+function Login({ onLogin, onLoading, logIn, errServText, setErrServText }) {
   const { values, errors, isFormValid, onChange } = useValidation();
 
   function handleSubmit(e) {
     e.preventDefault();
     onLogin(values);
   }
+
+  useEffect(() => {
+    setErrServText("");
+  }, [setErrServText]);
 
   return logIn ? (
     <Navigate to="/" replace />) : (
@@ -21,12 +25,13 @@ function Login({onLogin, onLoading, logIn}) {
         onSubmit={handleSubmit}
         isFormValid={isFormValid}
         buttonText={onLoading ? "Вход..." : "Войти"}
+        errServText={errServText}
       >
         <label className="form__input-wrapper">
           E-mail
           <input
-            className={`form__input ${errors.email ? "form__input_style_error" : ""
-              }`}
+            className={`form__input ${errors.email ?
+              "form__input_style_error" : ""}`}
             type="email"
             name="email"
             form="login"
@@ -36,8 +41,8 @@ function Login({onLogin, onLoading, logIn}) {
             value={values.email || ""}
           />
           <span
-            className={`form__input-error ${errors.email ? "form__input-error_active" : ""
-              }`}
+            className={`form__input-error ${errors.email ?
+              "form__input-error_active" : ""}`}
           >
             {errors.email || ""}
           </span>
@@ -45,8 +50,8 @@ function Login({onLogin, onLoading, logIn}) {
         <label className="form__input-wrapper">
           Пароль
           <input
-            className={`form__input ${errors.password ? "form__input_style_error" : ""
-              }`}
+            className={`form__input ${errors.password ?
+              "form__input_style_error" : ""}`}
             type="password"
             name="password"
             form="login"
@@ -59,8 +64,8 @@ function Login({onLogin, onLoading, logIn}) {
             value={values.password || ""}
           />
           <span
-            className={`form__input-error ${errors.password ? "form__input-error_active" : ""
-              }`}
+            className={`form__input-error ${errors.password ?
+              "form__input-error_active" : ""}`}
           >
             {errors.password || ""}
           </span>

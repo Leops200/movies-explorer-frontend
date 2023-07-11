@@ -1,17 +1,22 @@
+import { useEffect } from "react";
 import useValidation from "../utils/UseValidation";
 import "./Register.css";
 //import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import AuthPoint from "../AuthPoint/AuthPoint";
 
-function Registr({ onRegister, onLoading, errServText, logIn }) {
-
+function Registr({ onRegister, onLoading, errServText,
+  setErrServText, logIn }) {
   const { values, errors, isFormValid, onChange } = useValidation();
 
   function handleSubmit(e) {
     e.preventDefault();
     onRegister(values);
   }
+
+  useEffect(() => {
+    setErrServText("");
+  }, [setErrServText]);
 
   return logIn ? (<Navigate to="/" replace />) : (
     <main className="registr">

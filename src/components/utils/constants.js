@@ -12,15 +12,8 @@ export const CARDS_RENDER_SETTINGS = {
             more: 3,
         },
     },
-    desktop: {
-        width: 991,
-        cards: {
-            total: 12,
-            more: 3,
-        },
-    },
     tablet: {
-        width: 768,
+        width: 900,
         cards: {
             total: 8,
             more: 2,

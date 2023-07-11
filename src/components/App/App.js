@@ -12,6 +12,8 @@ import Login from "../Login/Login";
 import Registr from "../Register/Register";
 import NotFound from "../NotFound/NotFound";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import useUpMessage from "../../hooks/useUpMessage";
+
 import { CurrentUserContext } from "../../context/CurrentUserContext";
 import { MOV_API_URL } from "../utils/constants";
 
@@ -29,7 +31,7 @@ function App() {
   const [isSerchErr, setIsSerchErr] = useState(false);
   const aboutOnClickRef = useRef(null);
   const navigate = useNavigate();
-
+  const transmit = useUpMessage();
 
   async function userRegisterOn({ password, email, name }) {
     setIsLoading(true);
@@ -62,19 +64,23 @@ function App() {
       setIsLoading(false);
     }
   }
+
   async function userUpdate({ email, name }) {
     setIsLoading(true);
     try {
       const userData = await MainApi.addInfo({ name, email });
       if (userData) {
         setCurrentUser(userData);
+        transmit({
+          type: "OK",
+          message: "Данные обновлены",
+        });
       }
     } catch (err) {
       setErrServText(err);
       console.error(err);
     } finally { setIsLoading(false); }
   }
-
 
   async function userLogOut() {
     try {
@@ -120,10 +126,27 @@ function App() {
     }
   }
 
+  const getUserMovCards = useCallback(async () => {
+    try {
+      const moviesData = await MainApi.getInitCards();
+      if (moviesData) {
+        setSavedCards(moviesData);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
+
   // Проверяем, авторизован ли пользователь
   useEffect(() => {
     userLoginCheck();
   }, [logIn, userLoginCheck]);
+
+  useEffect(() => {
+    if (logIn) {
+      getUserMovCards();
+    }
+  }, [logIn, getUserMovCards]);
 
   function handleOpenSideMenu() {
     setSideMenuStatus(!isSideMenuOpen);
@@ -131,10 +154,6 @@ function App() {
 
   function handleCloseSideMenu() {
     setSideMenuStatus(false);
-  }
-
-  function handleFilterChange(evt) {
-
   }
 
   async function handleMovSave(movie) {
@@ -221,7 +240,6 @@ function App() {
                 <ProtectedRoute
                   element={SavedMovies}
                   savedMovies={savedMovies}
-                  onFilterChange={handleFilterChange}
                   logIn={logIn}
                   onCardDel={movieDel}
                 />
@@ -235,17 +253,20 @@ function App() {
                 onLogout={userLogOut}
                 onLoading={isLoading}
                 logIn={logIn}
-              />} />
+                setErrServText={setErrServText} />} />
           </Route>
           <Route path="/signin" element={<Login
             onLogin={userAuthOn}
             onLoading={isLoading}
-            logIn={logIn} />} />
+            logIn={logIn}
+            errServText={errServText}
+            setErrServText={setErrServText} />} />
           <Route path="/signup" element={<Registr
             onRegister={userRegisterOn}
             onLoading={isLoading}
             logIn={logIn}
-          />} />
+            errServText={errServText}
+            setErrServText={setErrServText} />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
         <TripleBurger
