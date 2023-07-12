@@ -12,12 +12,14 @@ function Header({ onHamburgerClick, logIn }) {
     <header className="header">
       {logIn ? (
         <div
-          className={`header__container header__wrapper ${nowLocation.pathname === "/" ?
+          className={`header__container ${nowLocation.pathname === "/" ?
             "header__wrapper_bg-color-hero" : ""}`}
         >
           <Logo />
-          <Navigation />
-          <AccountBtn />
+          <div className="header__wrapper">
+            <Navigation />
+            <AccountBtn />
+          </div>
           <button
             className="header__btn-hamburger hover-button"
             type="button"
@@ -25,28 +27,28 @@ function Header({ onHamburgerClick, logIn }) {
             onClick={onHamburgerClick}
           ></button>
         </div>) : (
-        <div className=" header__container header__wrapper header__wrapper_bg-color-hero">
+        <div className=" header__container header__wrapper_bg-color-hero">
           <Logo />
-
-          <div />
-          <nav className="header__menu">
-            <ul className="header__menu-wrapper">
-              <li className="header__menu-item">
-                <Link to="/signup" className="header__link hover-link">
-                  Регистрация
-                </Link>
-              </li>
-              <li className="header__menu-item">
-                <Link
-                  to="/signin"
-                  className="header__link header__link_type_login hover-button"
-                >
-                  Войти
-                </Link>
-              </li>
-            </ul>
-          </nav>
-
+          <div className="header__wrapper">
+            <div />
+            <nav className="header__menu">
+              <ul className="header__menu-wrapper">
+                <li className="header__menu-item">
+                  <Link to="/signup" className="header__link hover-link">
+                    Регистрация
+                  </Link>
+                </li>
+                <li className="header__menu-item">
+                  <Link
+                    to="/signin"
+                    className="header__link header__link_type_login hover-button"
+                  >
+                    Войти
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
       )}
     </header>
