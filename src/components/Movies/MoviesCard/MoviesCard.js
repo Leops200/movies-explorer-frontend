@@ -3,7 +3,7 @@ import "./MoviesCard.css";
 import { MOV_API_URL } from "../../utils/constants";
 
 function MoviesCard({ card, onCardSave, isSaved, onCardDel }) {
-  const nowLocation = useLocation();
+  const location = useLocation();
 
   function handleSaveClick() {
     onCardSave(card);
@@ -34,7 +34,7 @@ function MoviesCard({ card, onCardSave, isSaved, onCardDel }) {
         <img
           className="movies-card__img"
           src={
-            nowLocation.pathname === "/movies"
+            location.pathname === "/movies"
               ? `${MOV_API_URL}${card.image.url}`
               : `${card.image}`
           }
@@ -43,12 +43,12 @@ function MoviesCard({ card, onCardSave, isSaved, onCardDel }) {
       </a>
       <div className="movies-card__caption">
         <p className="movies-card__name">{card.nameRU}</p>
-        {nowLocation.pathname === "/movies" ? (
+        {location.pathname === "/movies" ? (
           <button
             className="movies-card__btn-action hover-button"
             type="button"
             aria-label="Добавить в сохранённые"
-            onClick={isSaved ? handleDelClick : handleSaveClick }
+            onClick={isSaved ? handleDelClick : handleSaveClick}
           >
             <svg
               className={`movies-card__btn-like-img ${isSaved ? "movies-card__btn-like-img_active" : ""

@@ -6,13 +6,13 @@ import AccountBtn from "../AccountBtn/AccountBtn";
 
 function Header({ onHamburgerClick, logIn }) {
 
-  const nowLocation = useLocation();
+  const location = useLocation();
 
   return (
     <header className="header">
       {logIn ? (
         <div
-          className={`header__container ${nowLocation.pathname === "/" ?
+          className={`header__container ${location.pathname === "/" ?
             "header__wrapper_bg-color-hero" : ""}`}
         >
           <Logo />

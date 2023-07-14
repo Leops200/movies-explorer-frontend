@@ -8,7 +8,7 @@ import { savedMovStatus } from "../../utils/utils";
 function MoviesCardList({ cards, onCardSave, cardRenderConfig,
   isLoading, isCardsNotFound, isSerchErr, savedMovies, onCardDel }) {
 
-  const nowLocation = useLocation();
+  const location = useLocation();
   const [moviesRender, setMovRender] = useState([]);
 
   function onClickBtnMore() {
@@ -22,19 +22,19 @@ function MoviesCardList({ cards, onCardSave, cardRenderConfig,
   }
 
   useEffect(() => {
-    if (nowLocation.pathname === "/movies" && cards.length) {
+    if (location.pathname === "/movies" && cards.length) {
       const result = cards.filter((card, index) => {
         return index < cardRenderConfig.total;
       });
       setMovRender(result);
     }
-  }, [nowLocation.pathname, cards, cardRenderConfig]);
+  }, [location.pathname, cards, cardRenderConfig]);
 
   useEffect(() => {
-    if (nowLocation.pathname === "/saved-movies") {
+    if (location.pathname === "/saved-movies") {
       setMovRender(cards);
     }
-  }, [nowLocation.pathname, cards]);
+  }, [location.pathname, cards]);
 
   return (
     <section

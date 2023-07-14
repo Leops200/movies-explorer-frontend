@@ -5,15 +5,19 @@ import './SearchForm.css';
 
 function SearchForm({ onSwitchChange, isSwitchOn, onSearch, isSearch }) {
 
-    const nowLocation = useLocation();
+    const location = useLocation();
     const [searchPhrase, setSearchPhrase] = useState("");
     const [phraseErr, setPhraseErr] = useState("");
 
+    useEffect(() => {
+        setPhraseErr("");
+    }, [searchPhrase]);
+
     function handleSubmit(e) {
         e.preventDefault();
-        if (nowLocation.pathname === "/movies") {
+        if (location.pathname === "/movies") {
             searchPhrase ? onSearch(searchPhrase) :
-            setPhraseErr("Введите фразу для поиска");
+                setPhraseErr("Введите фразу для поиска");
         } else {
             onSearch(searchPhrase);
         }
@@ -21,23 +25,19 @@ function SearchForm({ onSwitchChange, isSwitchOn, onSearch, isSearch }) {
 
     useEffect(() => {
         if (
-          nowLocation.pathname === "/movies" &&
-          localStorage.getItem("moviesSearchPhrase")
+            location.pathname === "/movies" &&
+            localStorage.getItem("moviesSearchPhrase")
         ) {
-          const savedSearchPhrase = localStorage.getItem("moviesSearchPhrase");
-          setSearchPhrase(savedSearchPhrase);
+            const savedSearchPhrase = localStorage.getItem("moviesSearchPhrase");
+            setSearchPhrase(savedSearchPhrase);
         } else if (
-          nowLocation.pathname === "/saved-movies" &&
-          localStorage.getItem("saveMoviesSearchPhrase")
+            location.pathname === "/saved-movies" &&
+            localStorage.getItem("saveMoviesSearchPhrase")
         ) {
-          const savedSearchPhrase = localStorage.getItem("moviesSearchPhrase");
-          setSearchPhrase(savedSearchPhrase);
+            const savedSearchPhrase = localStorage.getItem("saveMoviesSearchPhrase");
+            setSearchPhrase(savedSearchPhrase);
         }
-      }, [nowLocation.pathname]);
-
-    useEffect(() => {
-        setPhraseErr("");
-    }, [searchPhrase]);
+    }, [location.pathname]);
 
     return (
         <section className="search"

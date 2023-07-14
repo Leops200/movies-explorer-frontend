@@ -6,21 +6,21 @@ export const SHORT_MOVIE = 40;
 // Количество создаваемых и добавляемых карточек в зависимости от ширины
 export const CARDS_RENDER_SETTINGS = {
     base: {
-        width: 991,
+        width: 1280,
         cards: {
             total: 12,
-            more: 3,
+            more: 2,
         },
     },
     desktop: {
-        width: 768,
+        width: 991,
         cards: {
-            total: 8,
+            total: 12,
             more: 2,
         },
     },
     tablet: {
-        width: 321,
+        width: 768,
         cards: {
             total: 8,
             more: 2,
