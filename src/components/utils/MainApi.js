@@ -1,7 +1,8 @@
-const BASE_AUTH_URL = "http://localhost:3000";
+const BASE_AUTH_URL = "https://api.l-energy.dev.nomoredomains.xyz";
 // http://localhost:3001
 // https://auth.nomoreparties.co
 // http://api.diploma.dev.nomoredomains.rocks
+// https://api.l-energy.dev.nomoredomains.xyz
 
 
 function makeRequest(url, method, body) {
