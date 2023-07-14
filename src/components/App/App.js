@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
-import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
+import React, { useCallback, useEffect, useRef, useState, } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import useUpMessage from "../../hooks/useUpMessage";
 
 import "./App.css";
 import AppPoint from "../AppPoint/AppPoint";
@@ -11,28 +12,43 @@ import Profile from "../Profile/Profile";
 import Login from "../Login/Login";
 import Registr from "../Register/Register";
 import NotFound from "../NotFound/NotFound";
+import Preloader from "../Movies/Preloader/Preloader";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
-import useUpMessage from "../../hooks/useUpMessage";
-
 import { CurrentUserContext } from "../../context/CurrentUserContext";
-import { MOV_API_URL } from "../utils/constants";
-
 import * as MainApi from "../utils/MainApi";
 import * as MovieApi from "../utils/MovieApi";
+import { MOV_API_URL } from "../utils/constants";
 
 function App() {
   // Хуки
   const [currentUser, setCurrentUser] = useState({});
   const [logIn, setLogIn] = useState(false);
-  const [isSideMenuOpen, setSideMenuStatus] = useState(false);
   const [savedMovies, setSavedCards] = useState([]);
+  const [isSideMenuOpen, setSideMenuStatus] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isPreloaderOn, setPreloaderOn] = useState(true);
   const [errServText, setErrServText] = useState(false);
   const [isSerchErr, setIsSerchErr] = useState(false);
   const aboutOnClickRef = useRef(null);
-  const location = useLocation();
   const navigate = useNavigate();
   const transmit = useUpMessage();
+
+  async function userUpdate({ email, name }) {
+    setIsLoading(true);
+    try {
+      const userData = await MainApi.addInfo({ name, email });
+      if (userData) {
+        setCurrentUser(userData);
+        transmit({
+          type: "OK",
+          message: "Данные обновлены",
+        });
+      }
+    } catch (err) {
+      setErrServText(err);
+      console.error(err);
+    } finally { setIsLoading(false); }
+  }
 
   async function userRegisterOn({ password, email, name }) {
     setIsLoading(true);
@@ -66,23 +82,6 @@ function App() {
     }
   }
 
-  async function userUpdate({ email, name }) {
-    setIsLoading(true);
-    try {
-      const userData = await MainApi.addInfo({ name, email });
-      if (userData) {
-        setCurrentUser(userData);
-        transmit({
-          type: "OK",
-          message: "Данные обновлены",
-        });
-      }
-    } catch (err) {
-      setErrServText(err);
-      console.error(err);
-    } finally { setIsLoading(false); }
-  }
-
   async function userLogOut() {
     try {
       const data = await MainApi.logout();
@@ -107,8 +106,7 @@ function App() {
       }
     } catch (err) {
       console.error(err);
-    } finally {
-    }
+    } finally { setPreloaderOn(false); }
   }, []);
 
   async function getAllMovies() {
@@ -137,28 +135,6 @@ function App() {
       console.error(err);
     }
   }, []);
-
-  // Проверяем, авторизован ли пользователь
-  useEffect(() => {
-    if (!logIn) {
-      userLoginCheck();
-      navigate(location.pathname);
-    }
-  }, [logIn, location.pathname, navigate, userLoginCheck]);
-
-  useEffect(() => {
-    if (logIn) {
-      getUserMovCards();
-    }
-  }, [logIn, getUserMovCards]);
-
-  function handleOpenSideMenu() {
-    setSideMenuStatus(!isSideMenuOpen);
-  }
-
-  function handleCloseSideMenu() {
-    setSideMenuStatus(false);
-  }
 
   async function handleMovSave(movie) {
     try {
@@ -199,85 +175,98 @@ function App() {
     }
   }
 
-  function handleScrollEffect(targetRef) {
-    targetRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+  // Проверяем, авторизован ли пользователь
+  useEffect(() => {
+    userLoginCheck();
+  }, [logIn, userLoginCheck]);
+
+  useEffect(() => {
+    if (logIn) {
+      getUserMovCards();
+    }
+  }, [logIn, getUserMovCards]);
+
+  function handleOpenSideMenu() {
+    setSideMenuStatus(!isSideMenuOpen);
+  }
+
+  function handleCloseSideMenu() {
+    setSideMenuStatus(false);
   }
 
   return (
     <div className="app">
-      <CurrentUserContext.Provider value={currentUser}>
-        <Routes>
-          <Route
-            path="/"
-            element={<AppPoint onHamburgerClick={handleOpenSideMenu} logIn={logIn} />}
-          >
+      {isPreloaderOn ? (<Preloader />) : (
+        <CurrentUserContext.Provider value={currentUser}>
+          <Routes>
             <Route
-              index
-              element={
-                <Main
-                  onAnchorClick={handleScrollEffect}
-                  aboutRef={aboutOnClickRef}
-                />
-              }
-            />
-            <Route
-              path="/movies"
-              element={
+              path="/"
+              element={<AppPoint onHamburgerClick={handleOpenSideMenu} logIn={logIn} />}
+            >
+              <Route
+                index
+                element={
+                  <Main
+                    aboutRef={aboutOnClickRef}
+                  />
+                }
+              />
+              <Route
+                path="/movies"
+                element={
+                  <ProtectedRoute
+                    element={Movies}
+                    onSearch={getAllMovies}
+                    savedMovies={savedMovies}
+                    onCardSave={handleMovSave}
+                    logIn={logIn}
+                    isSerchErr={isSerchErr}
+                    isLoading={isLoading}
+                    onCardDel={movieDel}
+                  />
+                }
+              />
+              <Route
+                path="/saved-movies"
+                element={
+                  <ProtectedRoute
+                    element={SavedMovies}
+                    savedMovies={savedMovies}
+                    logIn={logIn}
+                    onCardDel={movieDel}
+                  />
+                }
+              />
+              <Route path="/profile" element={
                 <ProtectedRoute
-                  element={Movies}
-                  onSearch={getAllMovies}
-                  savedMovies={savedMovies}
-                  onCardSave={handleMovSave}
+                  element={Profile}
+                  onUpdate={userUpdate}
+                  errServText={errServText}
+                  onLogout={userLogOut}
+                  onLoading={isLoading}
                   logIn={logIn}
-                  isSerchErr={isSerchErr}
-                  isLoading={isLoading}
-                  onCardDel={movieDel}
-                />
-              }
-            />
-            <Route
-              path="/saved-movies"
-              element={
-                <ProtectedRoute
-                  element={SavedMovies}
-                  savedMovies={savedMovies}
-                  logIn={logIn}
-                  onCardDel={movieDel}
-                />
-              }
-            />
-            <Route path="/profile" element={
-              <ProtectedRoute
-                element={Profile}
-                onUpdate={userUpdate}
-                errServText={errServText}
-                onLogout={userLogOut}
-                onLoading={isLoading}
-                logIn={logIn}
-                setErrServText={setErrServText} />} />
-          </Route>
-          <Route path="/signin" element={<Login
-            onLogin={userAuthOn}
-            onLoading={isLoading}
-            logIn={logIn}
-            errServText={errServText}
-            setErrServText={setErrServText} />} />
-          <Route path="/signup" element={<Registr
-            onRegister={userRegisterOn}
-            onLoading={isLoading}
-            logIn={logIn}
-            errServText={errServText}
-            setErrServText={setErrServText} />} />
-          <Route path="/*" element={<NotFound />} />
-        </Routes>
-        <TripleBurger
-          isSideMenuOpen={isSideMenuOpen}
-          onClose={handleCloseSideMenu}
-        />
-      </CurrentUserContext.Provider>
+                  setErrServText={setErrServText} />} />
+            </Route>
+            <Route path="/signin" element={<Login
+              onLogin={userAuthOn}
+              onLoading={isLoading}
+              logIn={logIn}
+              errServText={errServText}
+              setErrServText={setErrServText} />} />
+            <Route path="/signup" element={<Registr
+              onRegister={userRegisterOn}
+              onLoading={isLoading}
+              logIn={logIn}
+              errServText={errServText}
+              setErrServText={setErrServText} />} />
+            <Route path="/*" element={<NotFound />} />
+          </Routes>
+          <TripleBurger
+            isSideMenuOpen={isSideMenuOpen}
+            onClose={handleCloseSideMenu}
+          />
+        </CurrentUserContext.Provider>
+      )}
     </div>
   );
 }

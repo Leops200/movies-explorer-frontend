@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import useValidation from "../utils/UseValidation";
+import useValidation from "../../hooks/useValidation";
 import "./Login.css";
 import AuthPoint from "../AuthPoint/AuthPoint";
 

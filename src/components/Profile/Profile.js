@@ -1,7 +1,7 @@
 
 import { useEffect, useState, useContext } from "react";
 import "./Profile.css";
-import useValidation from "../utils/UseValidation";
+import useValidation from "../../hooks/useValidation";
 import Form from "../Form/Form";
 import EntrTitle from "../EntrTitle/EntrTitle";
 import { CurrentUserContext } from "../../context/CurrentUserContext";

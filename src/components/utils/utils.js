@@ -57,7 +57,7 @@ export function generateKey(prefix) {
   return `${prefix}-${new Date().getTime()}`;
 }
 
-export function handleScrollEffect(targetRef) {
+export function scrollEffect(targetRef) {
   targetRef.current.scrollIntoView({
     behavior: "smooth",
     block: "start",

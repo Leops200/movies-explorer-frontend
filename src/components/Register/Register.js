@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import useValidation from "../utils/UseValidation";
+import useValidation from "../../hooks/useValidation";
 import "./Register.css";
 //import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
