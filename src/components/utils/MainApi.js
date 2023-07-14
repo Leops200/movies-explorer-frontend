@@ -13,9 +13,10 @@ function makeRequest(url, method, body) {
     config.body = JSON.stringify(body);
   }
   return fetch(`${BASE_AUTH_URL}${url}`, config).then((res) => {
+    const rez = res.json();
     return res.ok
-      ? res.json()
-      : Promise.reject(`Ошибка: ${res.status} ${res.statusText}`);
+      ? rez
+      : rez.then ((err) => Promise.reject(`${err.message}`));
   });
 }
 

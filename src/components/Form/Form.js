@@ -3,7 +3,7 @@ import "./Form.css";
 import ServErrs from "../ServErrs/ServErrs";
 
 function Form({ name, onSubmit, isFormValid, buttonText,
-  isEditingBegun, ...props }) {
+  errServText, isEditingBegun, ...props }) {
   const formRef = useRef(null);
 
   useEffect(() => {
@@ -45,7 +45,10 @@ function Form({ name, onSubmit, isFormValid, buttonText,
       onSubmit={onSubmit}
     >
       {props.children}
-      <ServErrs isEditingBegun={isEditingBegun} place={name} />
+      <ServErrs
+        place={name}
+        isEditingBegun={isEditingBegun}
+        errServText={errServText} />
       <button
         type="submit"
         form={`${name}`}

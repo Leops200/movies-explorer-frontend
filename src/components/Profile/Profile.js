@@ -6,7 +6,7 @@ import Form from "../Form/Form";
 import EntrTitle from "../EntrTitle/EntrTitle";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
 
-function Profile({ onLoading, onLogout, onUpdate, setErrServText, isRedact,
+function Profile({ onLoading, onLogout, onUpdate, errServText, setErrServText, isRedact,
   setRedact }) {
   const currentUser = useContext(CurrentUserContext);
   const [isCurrentUser, setUserModified] = useState(true);
@@ -85,6 +85,7 @@ function Profile({ onLoading, onLogout, onUpdate, setErrServText, isRedact,
           isCurrentUser={isCurrentUser}
           buttonText={onLoading ? "Сохранение..." : "Сохранить"}
           isEditingBegun={isEditingBegun}
+          errServText={errServText}
         >
           <label className="form__input-wrapper form__input-wrapper_type_edit-profile">
             Имя
