@@ -6,15 +6,6 @@
   background-color: var(--bg-color-main);
 }
 
-.movies-card-list__not-found {
-  font-family: var(--main-font);
-  font-size: 40px;
-  font-weight: 500;
-  line-height: 1.25;
-  text-align: center;
-  color: var(--white);
-}
-
 .movies-card-list__list {
   display: grid;
   grid-template-columns: repeat(auto-fit, 366px);
@@ -61,10 +52,6 @@
     padding-left: 30px;
   }
 
-  .movies-card-list__not-found {
-    font-size: 30px;
-  }
-
   .movies-card-list__list {
     justify-content: space-evenly;
   }
@@ -80,10 +67,6 @@
     padding-top: 40px;
     padding-right: 10px;
     padding-left: 10px;
-  }
-
-  .movies-card-list__not-found {
-    font-size: 18px;
   }
 }
 

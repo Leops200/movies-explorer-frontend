@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 
 import "./App.css";
 import AppPoint from "../AppPoint/AppPoint";
@@ -30,6 +30,7 @@ function App() {
   const [errServText, setErrServText] = useState(false);
   const [isSerchErr, setIsSerchErr] = useState(false);
   const aboutOnClickRef = useRef(null);
+  const location = useLocation();
   const navigate = useNavigate();
   const transmit = useUpMessage();
 
@@ -139,8 +140,11 @@ function App() {
 
   // Проверяем, авторизован ли пользователь
   useEffect(() => {
-    userLoginCheck();
-  }, [logIn, userLoginCheck]);
+    if (!logIn) {
+      userLoginCheck();
+      navigate(location.pathname);
+    }
+  }, [logIn, location.pathname, navigate, userLoginCheck]);
 
   useEffect(() => {
     if (logIn) {
