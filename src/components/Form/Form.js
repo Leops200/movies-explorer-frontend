@@ -3,7 +3,7 @@ import "./Form.css";
 import ServErrs from "../ServErrs/ServErrs";
 
 function Form({ name, onSubmit, isFormValid, buttonText,
-  errServText, isEditingBegun, ...props }) {
+  errServText, isEditingBegun, isCurrentUser, ...props }) {
   const formRef = useRef(null);
 
   useEffect(() => {
@@ -34,6 +34,14 @@ function Form({ name, onSubmit, isFormValid, buttonText,
     };
   }, []);
 
+  function btnDisable() {
+    if (name === "edit-profile") {
+      return isFormValid && !isCurrentUser ? false : true;
+    } else {
+      return isFormValid ? false : true;
+    }
+  }
+
   return (
     <form
       ref={formRef}
@@ -56,7 +64,7 @@ function Form({ name, onSubmit, isFormValid, buttonText,
           ? "form__btn-submit_hidden"
           : ""
           } hover-button`}
-        disabled={isFormValid ? false : true}
+        disabled={btnDisable()}
       >
         {buttonText}
       </button>

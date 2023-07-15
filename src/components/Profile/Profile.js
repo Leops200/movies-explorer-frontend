@@ -13,17 +13,6 @@ function Profile({ onLoading, onLogout, onUpdate, errServText, setErrServText, i
   const [isEditingBegun, setEditingStatus] = useState(false);
   const { values, errors, isFormValid, onChange, resetValidation } = useValidation();
 
-  // Функция для обработки клика по кнопке "Редактировать"
-  function handleEditClick() {
-    setEditingStatus(!isEditingBegun);
-  }
-
-  // Функция для обработки события отправки формы
-  function handleSubmit(e) {
-    e.preventDefault();
-    onUpdate(values);
-  }
-
   // Следим за изменением значений currentUser и values, если они отличаются, то форма изменена
   useEffect(() => {
     currentUser.name !== values.name ||
@@ -36,6 +25,17 @@ function Profile({ onLoading, onLogout, onUpdate, errServText, setErrServText, i
   useEffect(() => {
     resetValidation(false, currentUser);
   }, [resetValidation, currentUser]);
+
+  // Функция для обработки клика по кнопке "Редактировать"
+  function handleEditClick() {
+    setEditingStatus(!isEditingBegun);
+  }
+
+  // Функция для обработки события отправки формы
+  function handleSubmit(e) {
+    e.preventDefault();
+    onUpdate(values);
+  }
 
   // Сбрасываем ошибки
   useEffect(() => {
@@ -77,7 +77,7 @@ function Profile({ onLoading, onLogout, onUpdate, errServText, setErrServText, i
     <main className="profile">
       {isRedact && <Form onClickOutside={() => setRedact(false)} />}
       <section className="profile__wrapper">
-        <EntrTitle title={`Привет, ${currentUser.name}!`} place="edit-profile" />
+        <EntrTitle title={`Привет, ${currentUser.name || ""}!`} place="edit-profile" />
         <Form
           name="edit-profile"
           onSubmit={handleSubmit}
@@ -90,8 +90,8 @@ function Profile({ onLoading, onLogout, onUpdate, errServText, setErrServText, i
           <label className="form__input-wrapper form__input-wrapper_type_edit-profile">
             Имя
             <input
-              className={`form__input form__input_type_edit-profile ${errors.name ? "form__input_style_error" : ""
-                }`}
+              className={`form__input form__input_type_edit-profile
+              ${errors.name ? "form__input_style_error" : ""}`}
               type="text"
               name="name"
               form="edit-profile"
