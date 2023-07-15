@@ -4,6 +4,7 @@ import "./Register.css";
 //import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import AuthPoint from "../AuthPoint/AuthPoint";
+import { USER_NAME_REGEX } from "../utils/constants";
 
 function Registr({ onRegister, onLoading, errServText,
   setErrServText, logIn }) {
@@ -43,6 +44,7 @@ function Registr({ onRegister, onLoading, errServText,
             disabled={onLoading ? true : false}
             onChange={onChange}
             value={values.name || ""}
+            pattern={USER_NAME_REGEX}
           />
           <span
             className={`form__input-error ${errors.name ? "form__input-error_active" : ""

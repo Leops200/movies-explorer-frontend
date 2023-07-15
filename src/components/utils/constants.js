@@ -2,6 +2,9 @@ export const MOV_API_URL = "https://api.nomoreparties.co";
 
 // Время в минутах, меньше которого фильм считаем короткометражным
 export const SHORT_MOVIE = 40;
+ 
+// REGEX Ограничиваем ввод буквами, дефисом, и пробелом
+export const USER_NAME_REGEX = "^[A-Za-zА-Яа-яЁё\\-\\s]+$";
 
 // Количество создаваемых и добавляемых карточек в зависимости от ширины
 export const CARDS_RENDER_SETTINGS = {

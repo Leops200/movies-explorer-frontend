@@ -5,6 +5,7 @@ import useValidation from "../../hooks/useValidation";
 import Form from "../Form/Form";
 import EntrTitle from "../EntrTitle/EntrTitle";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
+import { USER_NAME_REGEX } from "../utils/constants";
 
 function Profile({ onLoading, onLogout, onUpdate, errServText, setErrServText, isRedact,
   setRedact }) {
@@ -99,9 +100,10 @@ function Profile({ onLoading, onLogout, onUpdate, errServText, setErrServText, i
               minLength="2"
               maxLength="30"
               id="name-input"
-              disabled={isEditingBegun ? false : true}
+              disabled={isEditingBegun && !onLoading ? false : true}
               onChange={onChange}
               value={values.name || ""}
+              pattern={USER_NAME_REGEX}
             />
           </label>
           <label className="form__input-wrapper form__input-wrapper_type_edit-profile">
@@ -114,7 +116,7 @@ function Profile({ onLoading, onLogout, onUpdate, errServText, setErrServText, i
               form="edit-profile"
               required
               id="email-input"
-              disabled={isEditingBegun ? false : true}
+              disabled={isEditingBegun && !onLoading ? false : true}
               onChange={onChange}
               value={values.email || ""}
             />
