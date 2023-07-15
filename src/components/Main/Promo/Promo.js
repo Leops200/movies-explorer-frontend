@@ -1,10 +1,8 @@
 import "./Promo.css";
-
-// IMPORT IMAGES
 import hero from "../../../images/hero-logo.svg";
+import { scrollEffect } from "../../utils/utils";
 
-// PROMO COMPONENT
-function Promo({ onAnchorClick, aboutRef }) {
+function Promo({ aboutRef }) {
   return (
     <section className="promo">
       <div className="promo__text-wrapper">
@@ -18,7 +16,7 @@ function Promo({ onAnchorClick, aboutRef }) {
         <button
           className="promo__btn-anchor hover-button"
           type="button"
-          onClick={() => onAnchorClick(aboutRef)}
+          onClick={() => scrollEffect(aboutRef)}
         >
           Узнать больше
         </button>

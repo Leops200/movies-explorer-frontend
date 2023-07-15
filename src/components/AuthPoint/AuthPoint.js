@@ -10,10 +10,11 @@ function AuthPoint({
   onSubmit,
   isFormValid,
   buttonText,
+  errServText,
   ...props
 }) {
   return (
-    <section className="auth-screen">
+    <section className="auth-point">
       <Logo place="auth" />
       <EntrTitle title={title} />
       <Form
@@ -21,20 +22,21 @@ function AuthPoint({
         onSubmit={onSubmit}
         isFormValid={isFormValid}
         buttonText={buttonText}
+        errServText={errServText}
       >
         {props.children}
       </Form>
       {name === "registr" ? (
-        <p className="auth-screen__text">
+        <p className="auth-point__text">
           Уже зарегистрированы?{" "}
-          <Link to="/signin" className="auth-screen__link hover-link">
+          <Link to="/signin" className="auth-point__link hover-link">
             Войти
           </Link>
         </p>
       ) : (
-        <p className="auth-screen__text">
+        <p className="auth-point__text">
           Ещё не зарегистрированы?{" "}
-          <Link to="/signup" className="auth-screen__link hover-link">
+          <Link to="/signup" className="auth-point__link hover-link">
             Регистрация
           </Link>
         </p>

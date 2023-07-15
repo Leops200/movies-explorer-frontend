@@ -1,6 +1,6 @@
 import "./SwitchSearch.css";
 
-function SwitchSearch({ onFilterChange, isFilterOn }) {
+function SwitchSearch({ onSwitchChange, isSwitchOn, isSearch }) {
   return (
     <label className="switch-checkbox">
       <input
@@ -8,8 +8,9 @@ function SwitchSearch({ onFilterChange, isFilterOn }) {
         form="search-and-filter"
         name="toggle"
         type="checkbox"
-        value={isFilterOn}
-        onChange={(evt) => onFilterChange(evt.target.checked)}
+        checked={isSwitchOn}
+        disabled={isSearch ? true : false}
+        onChange={(evt) => onSwitchChange(evt.target.checked)}
       />
       <span className="switch-checkbox__track"></span>
       Короткометражки

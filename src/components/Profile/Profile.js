@@ -1,43 +1,98 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import "./Profile.css";
-import useValidation from "../utils/UseValidation";
+import useValidation from "../../hooks/useValidation";
 import Form from "../Form/Form";
 import EntrTitle from "../EntrTitle/EntrTitle";
+import { CurrentUserContext } from "../../context/CurrentUserContext";
+import { USER_NAME_REGEX } from "../utils/constants";
 
-function Profile({ user }) {
-
+function Profile({ onLoading, onLogout, onUpdate, errServText, setErrServText, isRedact,
+  setRedact }) {
+  const currentUser = useContext(CurrentUserContext);
+  const [isCurrentUser, setUserModified] = useState(true);
   const [isEditingBegun, setEditingStatus] = useState(false);
   const { values, errors, isFormValid, onChange, resetValidation } = useValidation();
 
+  // Следим за изменением значений currentUser и values, если они отличаются, то форма изменена
+  useEffect(() => {
+    currentUser.name !== values.name ||
+      currentUser.email !== values.email
+      ? setUserModified(false)
+      : setUserModified(true);
+  }, [currentUser, values]);
+
+  // Сбрасываем валидацию формы при изменении currentUser
+  useEffect(() => {
+    resetValidation(false, currentUser);
+  }, [resetValidation, currentUser]);
+
+  // Функция для обработки клика по кнопке "Редактировать"
   function handleEditClick() {
     setEditingStatus(!isEditingBegun);
   }
 
+  // Функция для обработки события отправки формы
   function handleSubmit(e) {
     e.preventDefault();
+    onUpdate(values);
   }
 
+  // Сбрасываем ошибки
   useEffect(() => {
-    resetValidation(true, user);
-  }, [resetValidation, user]);
+    setErrServText("");
+  }, [setErrServText]);
+
+  // Следим за событием клика в пустую область или нажатием клавиши "ESC"
+  useEffect(() => {
+    function handleOutsideClick(event) {
+      if (
+        event.target.classList.contains("form__btn-submit") ||
+        event.target.classList.contains("form__input")
+      ) {
+        return;
+      }
+      setEditingStatus(false);
+    }
+
+    function handleKeyDown(event) {
+      if (event.code === "Escape") {
+        setEditingStatus(false);
+      }
+    }
+
+    if (isRedact) {
+      setEditingStatus(false);
+    }
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isRedact]);
 
   return (
     <main className="profile">
+      {isRedact && <Form onClickOutside={() => setRedact(false)} />}
       <section className="profile__wrapper">
-        <EntrTitle title={`Привет, ${user.name}!`} place="edit-profile" />
+        <EntrTitle title={`Привет, ${currentUser.name || ""}!`} place="edit-profile" />
         <Form
           name="edit-profile"
           onSubmit={handleSubmit}
           isFormValid={isFormValid}
-          buttonText="Сохранить"
+          isCurrentUser={isCurrentUser}
+          buttonText={onLoading ? "Сохранение..." : "Сохранить"}
           isEditingBegun={isEditingBegun}
+          errServText={errServText}
         >
           <label className="form__input-wrapper form__input-wrapper_type_edit-profile">
             Имя
             <input
-              className={`form__input form__input_type_edit-profile ${errors.name ? "form__input_style_error" : ""
-                }`}
+              className={`form__input form__input_type_edit-profile
+              ${errors.name ? "form__input_style_error" : ""}`}
               type="text"
               name="name"
               form="edit-profile"
@@ -45,9 +100,10 @@ function Profile({ user }) {
               minLength="2"
               maxLength="30"
               id="name-input"
-              disabled={isEditingBegun ? false : true}
+              disabled={isEditingBegun && !onLoading ? false : true}
               onChange={onChange}
               value={values.name || ""}
+              pattern={USER_NAME_REGEX}
             />
           </label>
           <label className="form__input-wrapper form__input-wrapper_type_edit-profile">
@@ -60,7 +116,7 @@ function Profile({ user }) {
               form="edit-profile"
               required
               id="email-input"
-              disabled={isEditingBegun ? false : true}
+              disabled={isEditingBegun && !onLoading ? false : true}
               onChange={onChange}
               value={values.email || ""}
             />
@@ -106,13 +162,14 @@ function Profile({ user }) {
           <button
             className="profile__btn-action profile__btn-action_type_edit hover-link"
             type="button"
+            onClick={handleEditClick}
           >
             Редактировать
           </button>
           <button
             className="profile__btn-action profile__btn-action_type_exit hover-link"
             type="button"
-            onClick={handleEditClick}
+            onClick={onLogout}
           >
             Выйти из аккаунта
           </button>

@@ -1,4 +1,4 @@
-.auth-screen {
+.auth-point {
     max-width: 456px;
     margin: 0 auto;
     padding: 70px 30px 70px;
@@ -6,7 +6,7 @@
     background-color: var(--bg-color-main);
   }
   
-  .auth-screen__text {
+  .auth-point__text {
     margin-top: 16px;
     margin-bottom: 0;
     font-family: var(--main-font);
@@ -17,7 +17,7 @@
     color: var(--text-grey);
   }
   
-  .auth-screen__link {
+  .auth-point__link {
     text-decoration: none;
     color: var(--blue);
     transition: var(--opacity);
@@ -42,19 +42,19 @@
   }
   
   @media screen and (max-width: 990px) {
-    .auth-screen {
+    .auth-point {
       padding-top: 232px;
       padding-bottom: 232px;
     }
   }
   
   @media screen and (max-width: 620px) {
-    .auth-screen {
+    .auth-point {
       padding-top: 56px;
       padding-bottom: 30px;
     }
   
-    .auth-screen__text {
+    .auth-point__text {
       margin-top: 14px;
       font-size: 12px;
       line-height: 1.25;

@@ -1,28 +1,37 @@
-import useValidation from "../utils/UseValidation";
+import { useEffect } from "react";
+import { Navigate } from "react-router-dom";
+import useValidation from "../../hooks/useValidation";
 import "./Login.css";
 import AuthPoint from "../AuthPoint/AuthPoint";
 
-function Login() {
+function Login({ onLogin, onLoading, logIn, errServText, setErrServText }) {
   const { values, errors, isFormValid, onChange } = useValidation();
 
   function handleSubmit(e) {
     e.preventDefault();
+    onLogin(values);
   }
 
-  return (
+  useEffect(() => {
+    setErrServText("");
+  }, [setErrServText]);
+
+  return logIn ? (
+    <Navigate to="/" replace />) : (
     <main className="login">
       <AuthPoint
         title="Рады видеть!"
         name="login"
         onSubmit={handleSubmit}
         isFormValid={isFormValid}
-        buttonText="Войти"
+        buttonText={onLoading ? "Вход..." : "Войти"}
+        errServText={errServText}
       >
         <label className="form__input-wrapper">
           E-mail
           <input
-            className={`form__input ${errors.email ? "form__input_style_error" : ""
-              }`}
+            className={`form__input ${errors.email ?
+              "form__input_style_error" : ""}`}
             type="email"
             name="email"
             form="login"
@@ -32,8 +41,8 @@ function Login() {
             value={values.email || ""}
           />
           <span
-            className={`form__input-error ${errors.email ? "form__input-error_active" : ""
-              }`}
+            className={`form__input-error ${errors.email ?
+              "form__input-error_active" : ""}`}
           >
             {errors.email || ""}
           </span>
@@ -41,8 +50,8 @@ function Login() {
         <label className="form__input-wrapper">
           Пароль
           <input
-            className={`form__input ${errors.password ? "form__input_style_error" : ""
-              }`}
+            className={`form__input ${errors.password ?
+              "form__input_style_error" : ""}`}
             type="password"
             name="password"
             form="login"
@@ -51,11 +60,12 @@ function Login() {
             maxLength="30"
             id="password-input"
             onChange={onChange}
+            autoComplete="current-password"
             value={values.password || ""}
           />
           <span
-            className={`form__input-error ${errors.password ? "form__input-error_active" : ""
-              }`}
+            className={`form__input-error ${errors.password ?
+              "form__input-error_active" : ""}`}
           >
             {errors.password || ""}
           </span>
