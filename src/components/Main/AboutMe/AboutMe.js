@@ -6,7 +6,7 @@ import Portfolio from "../Portfolio/Portfolio";
 function AboutMe() {
     // Вычисляем возраст
     function calculateAge() {
-        const birthDate = new Date(1978, 7, 5);
+        const birthDate = new Date(1977, 7, 5);
         const todayDate = new Date();
         const addOne =
             todayDate.getMonth() - birthDate.getMonth() >= 0 &&
