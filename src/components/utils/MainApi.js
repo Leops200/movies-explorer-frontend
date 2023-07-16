@@ -1,5 +1,5 @@
 const BASE_AUTH_URL = "https://api.l-energy.dev.nomoredomains.xyz";
-// http://localhost:3001
+// http://localhost:3000
 // https://auth.nomoreparties.co
 // http://api.diploma.dev.nomoredomains.rocks
 // https://api.l-energy.dev.nomoredomains.xyz

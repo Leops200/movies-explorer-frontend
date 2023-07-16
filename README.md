@@ -13,3 +13,5 @@
 Ссылка на пул-реквест: https://github.com/Leops200/movies-explorer-frontend/pulls
 
 Ссылка на страницу в сети: https://l-energy.dev.nomoredomains.xyz
+
+IP - адрес 158.160.67.176
