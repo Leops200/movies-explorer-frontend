@@ -41,7 +41,7 @@ export function movieSearch(movies, searchPhrase, isSavedMovies) {
     localStorage.setItem("foundMovies", JSON.stringify(result));
     localStorage.setItem("moviesSearchPhrase", normalizeSearchQuery);
   } else {
-    localStorage.setItem("moviesSearchPhrase", normalizeSearchQuery);
+    localStorage.setItem("savedMoviesSearchPhrase", normalizeSearchQuery);
   }
   return result;
 }

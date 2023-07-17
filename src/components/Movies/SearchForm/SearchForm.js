@@ -32,9 +32,9 @@ function SearchForm({ onSwitchChange, isSwitchOn, onSearch, isSearch }) {
             setSearchPhrase(savedSearchPhrase);
         } else if (
             location.pathname === "/saved-movies" &&
-            localStorage.getItem("saveMoviesSearchPhrase")
+            localStorage.getItem("savedMoviesSearchPhrase")
         ) {
-            const savedSearchPhrase = localStorage.getItem("saveMoviesSearchPhrase");
+            const savedSearchPhrase = localStorage.getItem("savedMoviesSearchPhrase");
             setSearchPhrase(savedSearchPhrase);
         }
     }, [location.pathname]);
