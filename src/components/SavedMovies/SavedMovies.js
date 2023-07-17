@@ -53,16 +53,15 @@ function SavedMovies({ savedMovies, onCardDel }) {
     [filterMovies]
   );
 
-  // DEPENDENCIES ON THE RENDERING OF SAVED CARDS
   useEffect(() => {
     setCardsNotFound(false);
     if (
-      localStorage.getItem("moviesSearchPhrase") &&
+      localStorage.getItem("savedMoviesSearchPhrase") &&
       localStorage.getItem("isSavedMoviesSwitchOn")
     ) {
       const filter = JSON.parse(localStorage.getItem("isSavedMoviesSwitchOn"));
       setSwitch(filter);
-      const searchQuery = localStorage.getItem("moviesSearchPhrase");
+      const searchQuery = localStorage.getItem("savedMoviesSearchPhrase");
       const found = movieSearch(savedMovies, searchQuery, true);
       setFilterMovies(found);
       if (!found.length) {
@@ -76,7 +75,7 @@ function SavedMovies({ savedMovies, onCardDel }) {
         }
       }
     } else if (
-      !localStorage.getItem("moviesSearchPhrase") &&
+      !localStorage.getItem("savedMoviesSearchPhrase") &&
       localStorage.getItem("isSavedMoviesSwitchOn")
     ) {
       setFilterMovies(savedMovies);
