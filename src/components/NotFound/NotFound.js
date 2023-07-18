@@ -3,8 +3,8 @@ import "./NotFound.css";
 
 function NotFound() {
   const navigate = useNavigate();
-  function handleBtnBackClick() {
-    if (window.history.state && window.history.state.idx > 0) {
+  function btnBackClick() {
+    if (window.history.state && window.history.length > 1) {
       navigate(-1);
     } else {
       navigate("/", { replace: true });
@@ -19,7 +19,7 @@ function NotFound() {
         <button
           className="not-found__btn-back hover-link"
           type="button"
-          onClick={handleBtnBackClick}
+          onClick={btnBackClick}
         >
           Назад
         </button>

@@ -8,7 +8,7 @@ function Portfolio() {
         <li className="portfolio__list-item">
           <a
             className="portfolio__link hover-link"
-            href="https://github.com/Leops200/how-to-learn.git"
+            href="https://leops200.github.io/how-to-learn/"
             target="_blank"
             rel="noreferrer"
           >

@@ -2,7 +2,6 @@ import { Link, useLocation } from "react-router-dom";
 import "./Navigation.css";
 
 function Navigation({ isSideMenu, onClose }) {
-
   const location = useLocation();
 
   return (

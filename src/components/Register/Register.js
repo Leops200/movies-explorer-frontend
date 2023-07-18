@@ -1,23 +1,33 @@
-import useValidation from "../utils/UseValidation";
+import { useEffect } from "react";
+import useValidation from "../../hooks/useValidation";
 import "./Register.css";
+//import { useEffect } from "react";
+import { Navigate } from "react-router-dom";
 import AuthPoint from "../AuthPoint/AuthPoint";
+import { USER_NAME_REGEX } from "../utils/constants";
 
-function Registr() {
-  // HOOKS
+function Registr({ onRegister, onLoading, errServText,
+  setErrServText, logIn }) {
   const { values, errors, isFormValid, onChange } = useValidation();
 
   function handleSubmit(e) {
     e.preventDefault();
+    onRegister(values);
   }
 
-  return (
+  useEffect(() => {
+    setErrServText("");
+  }, [setErrServText]);
+
+  return logIn ? (<Navigate to="/" replace />) : (
     <main className="registr">
       <AuthPoint
         title="Добро пожаловать!"
         name="registr"
         onSubmit={handleSubmit}
         isFormValid={isFormValid}
-        buttonText="Зарегистрироваться"
+        buttonText={onLoading ? "Регистрация..." : "Зарегистрироваться"}
+        errServText={errServText}
       >
         <label className="form__input-wrapper">
           Имя
@@ -31,8 +41,10 @@ function Registr() {
             minLength="2"
             maxLength="30"
             id="name-input"
+            disabled={onLoading ? true : false}
             onChange={onChange}
             value={values.name || ""}
+            pattern={USER_NAME_REGEX}
           />
           <span
             className={`form__input-error ${errors.name ? "form__input-error_active" : ""
@@ -51,6 +63,7 @@ function Registr() {
             form="registr"
             required
             id="email-input"
+            disabled={onLoading ? true : false}
             onChange={onChange}
             value={values.email || ""}
           />
@@ -73,6 +86,7 @@ function Registr() {
             minLength="6"
             maxLength="30"
             id="password-input"
+            disabled={onLoading ? true : false}
             onChange={onChange}
             value={values.password || ""}
           />
