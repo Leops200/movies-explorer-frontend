@@ -113,7 +113,13 @@ function App() {
     setIsLoading(true);
     setIsSerchErr(false);
     try {
+      const cachedMoviesData = localStorage.getItem("moviesData")
+      if(cachedMoviesData){
+        return JSON.parse(cachedMoviesData);
+      }
       const moviesData = await MovieApi.getMovies();
+      localStorage.setItem("moviesData", JSON.stringify(moviesData))
+
       if (moviesData) {
         return moviesData;
       }

@@ -1,10 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import "./NotFound.css";
 
-function NotFound( logIn ) {
+function NotFound() {
   const navigate = useNavigate();
   function btnBackClick() {
-    logIn ? navigate(-3) : navigate(-1);
+    if (window.history.state && window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate("/", { replace: true });
+    }
   }
 
   return (

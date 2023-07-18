@@ -65,6 +65,7 @@ function SearchForm({ onSwitchChange, isSwitchOn, onSearch, isSearch }) {
                     <button className="search__button hover-button"
                         type="submit"
                         form="search-and-filter"
+                        disabled={isSearch ? true : false}
                     >
                         Найти
                     </button>
