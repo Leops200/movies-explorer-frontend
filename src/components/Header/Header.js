@@ -17,7 +17,7 @@ function Header({ onHamburgerClick, logIn }) {
         >
           <Logo />
           <div className="header__wrapper">
-            <Navigation />
+            <Navigation logIn={logIn} />
             <AccountBtn />
           </div>
           <button

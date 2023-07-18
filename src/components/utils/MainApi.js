@@ -1,4 +1,4 @@
-const BASE_AUTH_URL = "http://localhost:3000";
+const BASE_AUTH_URL = "https://api.l-energy.dev.nomoredomains.xyz";
 // http://localhost:3000
 // https://auth.nomoreparties.co
 // http://api.diploma.dev.nomoredomains.rocks
